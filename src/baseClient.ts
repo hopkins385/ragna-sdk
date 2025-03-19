@@ -19,6 +19,20 @@ export abstract class BaseClient {
     this.axiosInstance = this.createAxiosInstance(this.baseURL, this.timeout);
   }
 
+  protected _ensureAuthenticated(): void {
+    if (!this.accessToken) {
+      throw new Error("Not authenticated. Please login first.");
+    }
+  }
+
+  public setTokens(payload: {
+    accessToken: string;
+    refreshToken: string;
+  }): void {
+    this.accessToken = payload.accessToken;
+    this.refreshToken = payload.refreshToken;
+  }
+
   protected createAxiosInstance(
     baseURL: string,
     timeout: number

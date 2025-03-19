@@ -171,6 +171,10 @@ export class RagnaClient extends BaseClient {
 
           try {
             await this.refreshAuthCallback?.();
+            // improvement proposal:
+            // const response = await this.auth.refreshTokens();
+            // this.setTokens({ accessToken: response.accessToken, refreshToken: response.refreshToken });
+            // this.setTokensCallback?.(response);
             this.processQueue(null, this.getAccessToken);
             return this.axiosInstance.request(originalRequest);
           } catch (err) {
