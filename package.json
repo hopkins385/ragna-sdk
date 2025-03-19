@@ -1,0 +1,48 @@
+{
+  "name": "ragna-sdk",
+  "version": "1.0.0",
+  "description": "A TypeScript SDK for interacting with the Ragna API.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc",
+    "build-only": "vite build",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "sdk",
+    "typescript",
+    "api",
+    "ragna"
+  ],
+  "author": "Sven Stadhouders",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.8.3"
+  },
+  "devDependencies": {
+    "eslint": "^9.22.0",
+    "jest": "^29.7.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.6",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.2",
+    "vite-plugin-dts": "^4.5.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/ragna-sdk.git"
+  },
+  "homepage": "https://github.com/yourusername/ragna-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/ragna-sdk/issues"
+  }
+}
