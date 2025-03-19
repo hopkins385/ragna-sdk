@@ -1,12 +1,12 @@
-# Ragna SDK
+# RAGNA Typescript Client-SDK
 
 ## Overview
 
-The Ragna SDK provides a set of tools and classes for interacting with the Ragna API. It simplifies the process of making HTTP requests, managing authentication, and handling errors.
+The RAGNA Typescript Client-SDK provides a set of tools and classes for interacting with the RAGNA API. It simplifies the process of making HTTP requests, managing authentication, and handling errors.
 
 ## Installation
 
-To install the Ragna SDK, you can use npm or yarn:
+To install the RAGNA Client-SDK, you can use npm or yarn:
 
 ```bash
 npm install ragna-sdk
@@ -20,7 +20,7 @@ yarn add ragna-sdk
 
 ## Usage
 
-To use the Ragna SDK, import the necessary classes from the package:
+To use the RAGNA Client-SDK, import the necessary classes from the package:
 
 ```typescript
 import { RagnaClient } from "ragna-sdk";

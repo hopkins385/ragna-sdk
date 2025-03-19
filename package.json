@@ -1,6 +1,6 @@
 {
-  "name": "ragna-sdk",
-  "version": "1.0.0",
+  "name": "ragna-client-sdk",
+  "version": "0.6.0",
   "description": "A TypeScript SDK for interacting with the Ragna API.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
