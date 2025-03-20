@@ -35,17 +35,17 @@ export class AssistantTemplateClient extends BaseApiClient {
    */
   async fetchAllTemplates() {
     const route = getRoute(ApiAssistantTemplateRoute.ASSISTANT_TEMPLATE);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantTemplatesResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -55,18 +55,18 @@ export class AssistantTemplateClient extends BaseApiClient {
     const route = getRoute(
       ApiAssistantTemplateRoute.ASSISTANT_TEMPLATE_PAGINATED
     );
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantTemplatesPaginatedResponse, PaginateParams>()
       .setRoute(route)
       .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -74,18 +74,18 @@ export class AssistantTemplateClient extends BaseApiClient {
    */
   async fetchRandomTemplates(params: RandomTemplatesParams) {
     const route = getRoute(ApiAssistantTemplateRoute.ASSISTANT_TEMPLATE_RANDOM);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantTemplatesResponse, RandomTemplatesParams>()
       .setRoute(route)
       .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -93,17 +93,17 @@ export class AssistantTemplateClient extends BaseApiClient {
    */
   async fetchAllCategories() {
     const route = getRoute(ApiAssistantTemplateRoute.ASSISTANT_CATEGORY);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantTemplateCategoriesResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -116,17 +116,17 @@ export class AssistantTemplateClient extends BaseApiClient {
         ":categoryId": categoryId,
       }
     );
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantTemplatesResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -136,7 +136,7 @@ export class AssistantTemplateClient extends BaseApiClient {
     const route = getRoute(
       ApiAssistantTemplateRoute.ASSISTANT_TEMPLATES_BY_CATEGORY_IDS
     );
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<CategoriesWithTemplatesResponse, { categoryIds: string[] }>()
       .setRoute(route)
       .setData(payload)
@@ -144,11 +144,11 @@ export class AssistantTemplateClient extends BaseApiClient {
       .send();
 
     // The expected status code is HttpStatus.OK in this case.
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

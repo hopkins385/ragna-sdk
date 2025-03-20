@@ -15,18 +15,18 @@ export class GoogleDriveClient extends BaseApiClient {
 
   public async fetchDriveData(params: DriveParams) {
     const route = getRoute(ApiGoogleDriveRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<any, DriveParams>()
       .setRoute(route)
       .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

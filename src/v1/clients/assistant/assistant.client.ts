@@ -24,53 +24,53 @@ export class AssistantClient extends BaseApiClient {
 
   public async createAssistant(payload: CreateAssistantPayload) {
     const route = getRoute(ApiAssistantRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<AssistantResponse, CreateAssistantPayload>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async createAssistantFromTemplate(
     payload: CreateAssistantFromTemplatePayload
   ) {
     const route = getRoute(ApiAssistantRoute.FROM_TEMPLATE);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<AssistantResponse, CreateAssistantFromTemplatePayload>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchAssistant(assistantId: string) {
     const route = getRoute(ApiAssistantRoute.ASSISTANT, {
       ":assistantId": assistantId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchAllAssistants({
@@ -88,18 +88,18 @@ export class AssistantClient extends BaseApiClient {
       searchQuery: searchQuery ?? undefined,
     };
     const route = getRoute(ApiAssistantRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantsPaginatedResponse, PaginateParams>()
       .setRoute(route)
       .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updateAssistant(
@@ -109,18 +109,18 @@ export class AssistantClient extends BaseApiClient {
     const route = getRoute(ApiAssistantRoute.ASSISTANT, {
       ":assistantId": assistantId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<AssistantResponse, Partial<CreateAssistantPayload>>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updateHasKnowledgeBase(
@@ -130,35 +130,35 @@ export class AssistantClient extends BaseApiClient {
     const route = getRoute(ApiAssistantRoute.HAS_KNOWLEDGE, {
       ":assistantId": assistantId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<AssistantResponse, { hasKnowledgeBase: boolean }>()
       .setRoute(route)
       .setData({ hasKnowledgeBase })
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteAssistant(assistantId: string) {
     const route = getRoute(ApiAssistantRoute.ASSISTANT, {
       ":assistantId": assistantId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .DELETE<AssistantResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

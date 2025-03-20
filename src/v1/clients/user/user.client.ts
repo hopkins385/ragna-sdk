@@ -21,17 +21,17 @@ export class UserClient extends BaseApiClient {
    */
   async fetchAllUsers(): Promise<UsersPaginated> {
     const route = getRoute(ApiUserRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<UsersPaginated>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -43,17 +43,17 @@ export class UserClient extends BaseApiClient {
     if (!userId) throw new Error("User ID is required");
 
     const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<User>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -66,18 +66,18 @@ export class UserClient extends BaseApiClient {
     }
 
     const route = getRoute(ApiUserRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<User, UserCreate>()
       .setRoute(route)
       .setData(user)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -89,18 +89,18 @@ export class UserClient extends BaseApiClient {
     if (!userId) throw new Error("User ID is required");
 
     const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<User, UserUpdate>()
       .setRoute(route)
       .setData(updateData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   /**
@@ -114,13 +114,13 @@ export class UserClient extends BaseApiClient {
     }
 
     const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
-    const { status } = await this.client
+    const response = await this.client
       .DELETE<never>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 

@@ -15,17 +15,17 @@ export class AssistantToolClient extends BaseApiClient {
 
   async fetchAllTools() {
     const route = getRoute(ApiAssistantToolRoute.TOOLS);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AssistantToolResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

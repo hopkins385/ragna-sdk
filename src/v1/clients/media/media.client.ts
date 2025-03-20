@@ -26,7 +26,7 @@ export class MediaClient extends BaseApiClient {
     formData.append("vision", vision.toString());
 
     const route = getRoute(ApiMediaRoute.UPLOAD);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<any, FormData>()
       .setHeaders({
         "Content-Type": "multipart/form-data",
@@ -36,11 +36,11 @@ export class MediaClient extends BaseApiClient {
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchAllMediaFor(
@@ -57,7 +57,7 @@ export class MediaClient extends BaseApiClient {
       },
     };
     const route = getRoute(ApiMediaRoute.FOR_PAGINATE);
-    const { status, data } = await this.client
+    const response = await this.client
       //@ts-ignore
       .POST<any, PaginateParams, { model: { id: string; type: any } }>()
       .setRoute(route)
@@ -68,26 +68,26 @@ export class MediaClient extends BaseApiClient {
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteMedia(mediaId: string) {
     const route = getRoute(ApiMediaRoute.MEDIA, { ":mediaId": mediaId });
-    const { status, data } = await this.client
+    const response = await this.client
       .DELETE<any>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

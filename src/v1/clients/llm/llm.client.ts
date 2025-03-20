@@ -15,17 +15,17 @@ export class LLMClient extends BaseApiClient {
 
   async getAllModels() {
     const route = getRoute(ApiLlmRoute.MODELS);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<LargeLangModelListResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

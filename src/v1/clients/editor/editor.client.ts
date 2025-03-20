@@ -22,35 +22,35 @@ export class EditorClient extends BaseApiClient {
   async fetchPromptCompletion(payload: PromptCompletionPayload) {
     this.abortRequest();
     const route = getRoute(ApiEditorRoute.PROMPT_COMPLETION);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<PromptCompletionResponse, PromptCompletionPayload>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .setData(payload)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   async fetchInlineCompletion({ context }: any) {
     this.abortRequest();
     const route = getRoute(ApiEditorRoute.INLINE_COMPLETION);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<InlineCompletionResponse, InlineCompletionPayload>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .setData(context)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

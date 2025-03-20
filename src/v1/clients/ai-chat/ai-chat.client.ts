@@ -42,40 +42,41 @@ export class AiChatClient extends BaseApiClient {
     assistantId: string;
   }): Promise<ChatResponse> {
     const route = getRoute(ApiChatRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<ChatResponse, { assistantId: string }>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async createChatMessage(
     payload: CreateChatMessagePayload
   ): Promise<ChatMessage> {
-    const { chatId, message } = payload;
-    if (!chatId || !message) {
+    if (!payload.chatId || !payload.message) {
       throw new BadRequestError();
     }
-    const route = getRoute(ApiChatRoute.CHAT_MESSAGE, { ":chatId": chatId });
-    const { status, data } = await this.client
+    const route = getRoute(ApiChatRoute.CHAT_MESSAGE, {
+      ":chatId": payload.chatId,
+    });
+    const response = await this.client
       .POST<ChatMessage, { message: ChatMessage }>()
       .setRoute(route)
-      .setData({ message })
+      .setData({ message: payload.message })
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async createChatStream(
@@ -143,65 +144,65 @@ export class AiChatClient extends BaseApiClient {
       throw new AiChatClientError("Chat ID is required");
     }
     const route = getRoute(ApiChatRoute.CHAT, { ":chatId": chatId });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<ChatResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchAllChats(): Promise<Chat[]> {
     const route = getRoute(ApiChatRoute.CHAT_ALL);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<Chat[]>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchAllChatsPaginated(
     params: PaginateParams
   ): Promise<ChatsPaginatedResponse> {
     const route = getRoute(ApiChatRoute.CHAT_HISTORY);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<ChatsPaginatedResponse, PaginateParams>()
       .setRoute(route)
       .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchLatestChat(): Promise<ChatResponse> {
     const route = getRoute(ApiChatRoute.CHAT_LATEST);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<ChatResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteAllChatMessages(payload: { chatId: InputChatId }) {
@@ -211,13 +212,13 @@ export class AiChatClient extends BaseApiClient {
     const route = getRoute(ApiChatRoute.CHAT_MESSAGES, {
       ":chatId": payload.chatId,
     });
-    const { status } = await this.client
+    const response = await this.client
       .DELETE()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
@@ -229,13 +230,13 @@ export class AiChatClient extends BaseApiClient {
       throw new AiChatClientError("Chat ID is required");
     }
     const route = getRoute(ApiChatRoute.CHAT, { ":chatId": payload.chatId });
-    const { status } = await this.client
+    const response = await this.client
       .DELETE()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 

@@ -33,18 +33,18 @@ export class TextToImageClient extends BaseApiClient {
     };
 
     const route = getRoute(ApiImageGenRoute.FLUX_PRO);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<ImageGenResponse, FluxProPayload>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async generateFluxUltraImages(payload: FluxUltraPayload) {
@@ -54,51 +54,51 @@ export class TextToImageClient extends BaseApiClient {
     };
 
     const route = getRoute(ApiImageGenRoute.FLUX_ULTRA);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<ImageGenResponse, FluxUltraPayload>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async toggleHideRun(payload: { runId: string }) {
     const route = getRoute(ApiImageGenRoute.TOGGLE_HIDE, {
       ":runId": payload.runId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<ImageGenResponse, typeof payload>()
       .setRoute(route)
       //.setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchFolders() {
     const route = getRoute(ApiImageGenRoute.FOLDERS);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<ImageGenFolderResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchRunsPaginated(
@@ -108,36 +108,36 @@ export class TextToImageClient extends BaseApiClient {
     const route = getRoute(ApiImageGenRoute.FOLDER_RUNS_PAGINATED, {
       ":folderId": folderId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<ImageGenPaginatedResponse, PaginateParams>()
       .setRoute(route)
       .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async downloadImage(imageId: string) {
     const route = getRoute(ApiImageGenRoute.DOWNLOAD_IMAGE, {
       ":imageId": imageId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<Blob>()
       .setResponseType("blob")
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

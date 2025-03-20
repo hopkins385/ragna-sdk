@@ -22,48 +22,48 @@ export class AuthProviderClient extends BaseApiClient {
 
   public async fetchUserHasAccess(provider: ProviderAuthName) {
     const route = getRoute(ApiProviderAuthRoute.GOOGLE_HAS_ACCESS);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<ProviderAuthHasAccessResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchConsentURL(provider: ProviderAuthName) {
     const route = getRoute(ApiProviderAuthRoute.GOOGLE_CONSENT_URL);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<ProviderAuthConsentURLResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async connectGoogleDrive(payload: { code: string }) {
     const route = getRoute(ApiProviderAuthRoute.GOOGLE_CALLBACK);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<any, { code: string }>()
       .setRoute(route)
       .setParams(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

@@ -18,33 +18,33 @@ export class AccountClient extends BaseApiClient {
 
   public async fetchAccountData() {
     const route = getRoute(ApiAccountRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<AccountData>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updateName(payload: { firstName: string; lastName: string }) {
     const route = getRoute(ApiAccountRoute.NAME);
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<AccountData, { firstName: string; lastName: string }>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updatePassword(payload: {
@@ -52,36 +52,36 @@ export class AccountClient extends BaseApiClient {
     newPassword: string;
   }) {
     const route = getRoute(ApiAccountRoute.PASSWORD);
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<AccountData, { oldPassword: string; newPassword: string }>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteAccount(payload: { password: string }) {
     throw new Error("Method not implemented.");
     // TODO: dont send password
     const route = getRoute(ApiAccountRoute.DELETE);
-    const { status, data } = await this.client
+    const response = await this.client
       .DELETE<AccountData, { password: string }>()
       .setRoute(route)
       // .setParams(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

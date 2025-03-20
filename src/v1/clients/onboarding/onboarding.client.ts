@@ -14,18 +14,18 @@ export class OnboardingClient extends BaseApiClient {
   }
   async onboardUser(payload: { orgName: string }): Promise<OnboardingResponse> {
     const route = getRoute(ApiOnboardingRoute.USER);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<OnboardingResponse, { orgName: string }>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

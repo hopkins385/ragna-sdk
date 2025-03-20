@@ -25,33 +25,33 @@ export class UserFavoriteClient extends BaseApiClient {
       favoriteType: payload.type,
     };
     const route = getRoute(ApiUserFavoriteRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<UserFavoriteResponse, any>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchAllFavorites() {
     const route = getRoute(ApiUserFavoriteRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<UserFavoritesResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchAllFavoritesByType(favoriteType: string) {
@@ -59,17 +59,17 @@ export class UserFavoriteClient extends BaseApiClient {
       ":favoriteType",
       favoriteType
     );
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<UserFavoritesResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteFavorite(payload: {
@@ -85,7 +85,7 @@ export class UserFavoriteClient extends BaseApiClient {
     const route = getRoute(ApiUserFavoriteRoute.DELETE, {
       ":entityId": payload.entityId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .DELETE<UserFavoriteResponse, { favoriteType: string }>()
       .setRoute(route)
       // @ts-ignore
@@ -93,11 +93,11 @@ export class UserFavoriteClient extends BaseApiClient {
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

@@ -28,18 +28,18 @@ export class WorkflowStepClient extends BaseApiClient {
     };
 
     const route = getRoute(ApiWorkflowStepRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<any, CreateWorkflowStepDto>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async createWorkflowRow(
@@ -52,18 +52,18 @@ export class WorkflowStepClient extends BaseApiClient {
     };
 
     const route = getRoute(ApiWorkflowStepRoute.ROW);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<any, CreateWorkflowRowDto>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updateInputSteps(
@@ -76,18 +76,18 @@ export class WorkflowStepClient extends BaseApiClient {
     const route = getRoute(ApiWorkflowStepRoute.INPUT_STEPS, {
       ":workflowStepId": workflowStepId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<any, { inputStepIds: string[] }>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updateWorkflowStep(
@@ -101,18 +101,18 @@ export class WorkflowStepClient extends BaseApiClient {
     const route = getRoute(ApiWorkflowStepRoute.STEP, {
       ":workflowStepId": workflowId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<any, { name?: string }>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updateWorkflowStepAssistant(
@@ -126,35 +126,35 @@ export class WorkflowStepClient extends BaseApiClient {
     const route = getRoute(ApiWorkflowStepRoute.STEP_ASSISTANT, {
       ":workflowStepId": workflowStepId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<any, { assistantId: string }>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteWorkflowStep(workflowStepId: string) {
     const route = getRoute(ApiWorkflowStepRoute.STEP, {
       ":workflowStepId": workflowStepId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .DELETE<any>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 
   public async updateItemContent({
@@ -177,18 +177,18 @@ export class WorkflowStepClient extends BaseApiClient {
       itemContent: content,
     };
 
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<any, { itemContent: string }>()
       .setRoute(route)
       .setData(bodyData)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

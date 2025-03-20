@@ -1,8 +1,8 @@
-# RAGNA Typescript SDK
+# RAGNA Gen AI SDK for TypeScript and JavaScript
 
 ## Overview
 
-The RAGNA Typescript SDK provides a set of tools and classes for interacting with the RAGNA API. It simplifies the process of making HTTP requests, managing authentication, and handling errors.
+The RAGNA GenAI SDK provides a set of tools and classes for interacting with the RAGNA API. It simplifies the process of making HTTP requests, managing authentication, and handling errors.
 
 ## Installation
 

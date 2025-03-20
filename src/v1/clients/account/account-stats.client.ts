@@ -21,18 +21,18 @@ export class AccountStatsClient extends BaseApiClient {
 
   public async fetchTokenHistory(params: TokenUsageHistoryParams) {
     const route = getRoute(ApiAccountStatsRoute.TOKEN_HISTORY);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<TokenUsageHistoryResponse, TokenUsageHistoryParams>()
       .setRoute(route)
       .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new BadResponseError();
     }
 
-    return data;
+    return response.data;
   }
 }
 

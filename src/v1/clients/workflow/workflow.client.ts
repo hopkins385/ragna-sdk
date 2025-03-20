@@ -25,18 +25,18 @@ export class WorkflowClient extends BaseApiClient {
 
   public async createWorkflow(payload: ICreateWorkflow) {
     const route = getRoute(ApiWorkflowRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<WorkflowResponse, ICreateWorkflow>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new Error("Failed to create workflow");
     }
 
-    return data;
+    return response.data;
   }
 
   public async reCreateWorkflowFromMedia(payload: IReCreateWorkflowFromMedia) {
@@ -47,34 +47,34 @@ export class WorkflowClient extends BaseApiClient {
     const route = getRoute(ApiWorkflowRoute.WORKFLOW, {
       ":workflowId": workflowId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<WorkflowResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new Error("Failed to fetch workflow");
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchFullWorkflow(workflowId: string) {
     const route = getRoute(ApiWorkflowRoute.WORKFLOW_FULL, {
       ":workflowId": workflowId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<WorkflowResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new Error("Failed to fetch workflow");
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchWorkflows() {
@@ -100,17 +100,17 @@ export class WorkflowClient extends BaseApiClient {
 
   public async fetchWorkflowsPaginated() {
     const route = getRoute(ApiWorkflowRoute.BASE);
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<WorkflowsPaginatedResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new Error("Failed to fetch workflows");
     }
 
-    return data;
+    return response.data;
   }
 
   public async fetchWorkflowSettings(workflowId: string) {
@@ -124,18 +124,18 @@ export class WorkflowClient extends BaseApiClient {
     const route = getRoute(ApiWorkflowRoute.WORKFLOW, {
       ":workflowId": workflowId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<WorkflowResponse, Partial<UpdateWorkflowDto>>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new Error("Failed to update workflow");
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteWorkflow(workflowId: string) {
@@ -143,54 +143,53 @@ export class WorkflowClient extends BaseApiClient {
       ":workflowId": workflowId,
     });
 
-    const { status, data } = await this.client
+    const response = await this.client
       .DELETE<WorkflowResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new Error("Failed to delete workflow");
     }
 
-    return data;
+    return response.data;
   }
 
   public async deleteWorkflowRows(workflowId: string, orderColumns: number[]) {
     const route = getRoute(ApiWorkflowRoute.WORKFLOW_ROW, {
       ":workflowId": workflowId,
     });
-    console.log("orderColumns", orderColumns);
-    const { status, data } = await this.client
+    const response = await this.client
       .PATCH<never, { orderColumns: number[] }>()
       .setRoute(route)
       .setData({ orderColumns })
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new Error("Failed to delete workflow rows");
     }
 
-    return data;
+    return response.data;
   }
 
   public async exportWorkflow(workflowId: string, format: string) {
     const route = getRoute(ApiWorkflowRoute.EXPORT, {
       ":workflowId": workflowId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .GET<Blob>()
       .setRoute(route)
       .setResponseType("blob")
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.OK) {
+    if (response.status !== HttpStatus.OK) {
       throw new Error("Failed to export workflow");
     }
 
-    return data;
+    return response.data;
   }
 
   public async clearAllRows(workflowId: string) {
@@ -201,17 +200,17 @@ export class WorkflowClient extends BaseApiClient {
     const route = getRoute(ApiWorkflowRoute.EXECUTE, {
       ":workflowId": workflowId,
     });
-    const { status, data } = await this.client
+    const response = await this.client
       .POST<WorkflowResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
 
-    if (status !== HttpStatus.CREATED) {
+    if (response.status !== HttpStatus.CREATED) {
       throw new Error("Failed to execute workflow");
     }
 
-    return data;
+    return response.data;
   }
 }
 
