@@ -1,6 +1,6 @@
 {
   "name": "ragna-sdk",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "A TypeScript SDK for interacting with the RAGNA API.",
   "author": "Sven Stadhouders",
   "license": "MIT",
