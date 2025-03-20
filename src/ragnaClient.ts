@@ -67,8 +67,6 @@ export class RagnaClient extends BaseClient {
     reject: (error: any) => void;
   }> = [];
 
-  private isRefreshing = false;
-
   constructor(options?: {
     baseURL?: string;
     timeout?: number;
@@ -140,23 +138,18 @@ export class RagnaClient extends BaseClient {
   }
 
   private setupResponseInterceptor() {
-    // Auto refresh token
+    // Auto refresh access token
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
         const originalRequest = error.config as ExtendedAxiosRequestConfig;
         const status = error.response?.status;
-        const failingUrl = error.config?.url;
         const errorData = error.response?.data as {
           message?: string;
           error_code?: string;
         };
 
-        if (
-          (status === 401 || status === 403) &&
-          !originalRequest._retry &&
-          this.getRefreshToken
-        ) {
+        if (!originalRequest._retry && status === 401 && this.getRefreshToken) {
           // do not auto refresh token for these routes
           if (
             originalRequest.url === AuthRoutePath.REFRESH ||
@@ -168,11 +161,10 @@ export class RagnaClient extends BaseClient {
             return Promise.reject(error);
           }
 
-          console.log("Refreshing token...");
+          console.log("Auto refreshing access token...");
           console.log("Route", originalRequest.url);
 
           originalRequest._retry = 1;
-          this.isRefreshing = true;
 
           try {
             await this.refreshAuthCallback?.();
@@ -188,8 +180,6 @@ export class RagnaClient extends BaseClient {
           } catch (err) {
             this.processQueue(err, null);
             return Promise.reject(err);
-          } finally {
-            this.isRefreshing = false;
           }
         }
 
