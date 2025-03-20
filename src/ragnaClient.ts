@@ -25,6 +25,7 @@ import { WorkflowClient } from "./v1/clients/workflow";
 import { WorkflowStepClient } from "./v1/clients/workflow-step";
 
 type CallBack = () => any;
+type GetTokenCallBack = () => string | null;
 type AsyncCallBack = () => Promise<any>;
 
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
@@ -55,8 +56,8 @@ export class RagnaClient extends BaseClient {
   public readonly workflow: WorkflowClient;
   public readonly workflowStep: WorkflowStepClient;
 
-  private getAccessTokenCallback?: CallBack;
-  private getRefreshTokenCallback?: CallBack;
+  private getAccessTokenCallback?: GetTokenCallBack;
+  private getRefreshTokenCallback?: GetTokenCallBack;
   private setTokensCallback?: CallBack;
   private onRefreshFailedCallback?: CallBack;
   private refreshAuthCallback?: AsyncCallBack;
@@ -71,8 +72,8 @@ export class RagnaClient extends BaseClient {
   constructor(options?: {
     baseURL?: string;
     timeout?: number;
-    getAccessTokenCallback?: CallBack;
-    getRefreshTokenCallback?: CallBack;
+    getAccessTokenCallback?: GetTokenCallBack;
+    getRefreshTokenCallback?: GetTokenCallBack;
     refreshAuthCallback?: AsyncCallBack;
     setTokensCallback?: CallBack;
     onRefreshFailedCallback?: CallBack;
@@ -113,18 +114,16 @@ export class RagnaClient extends BaseClient {
   }
 
   get getAccessToken(): string | null {
-    if (!this.accessToken) {
-      const accessToken = this.getAccessTokenCallback?.();
-      this.accessToken = accessToken || null;
+    if (!this.getAccessTokenCallback) {
+      return null;
     }
-    return this.accessToken || null;
+    return this.getAccessTokenCallback();
   }
   get getRefreshToken(): string | null {
-    if (!this.refreshToken) {
-      const refreshToken = this.getRefreshTokenCallback?.();
-      this.refreshToken = refreshToken || null;
+    if (!this.getRefreshTokenCallback) {
+      return null;
     }
-    return this.refreshToken;
+    return this.getRefreshTokenCallback();
   }
 
   private setupRequestInterceptor() {
@@ -146,9 +145,15 @@ export class RagnaClient extends BaseClient {
       (response) => response,
       async (error: AxiosError) => {
         const originalRequest = error.config as ExtendedAxiosRequestConfig;
+        const status = error.response?.status;
+        const failingUrl = error.config?.url;
+        const errorData = error.response?.data as {
+          message?: string;
+          error_code?: string;
+        };
 
         if (
-          error.response?.status === 401 &&
+          (status === 401 || status === 403) &&
           !originalRequest._retry &&
           this.getRefreshToken
         ) {
@@ -173,6 +178,9 @@ export class RagnaClient extends BaseClient {
             await this.refreshAuthCallback?.();
             // improvement proposal:
             // const response = await this.auth.refreshTokens();
+            // if (!response || !response.accessToken || !response.refreshToken) {
+            //   throw new Error("Failed to refresh tokens");
+            // }
             // this.setTokens({ accessToken: response.accessToken, refreshToken: response.refreshToken });
             // this.setTokensCallback?.(response);
             this.processQueue(null, this.getAccessToken);
