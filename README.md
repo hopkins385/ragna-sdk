@@ -38,15 +38,6 @@ const client = new RagnaClient({
   getRefreshTokenCallback: () => "your-refresh-token",
   refreshAuthCallback: async () => {
     // Custom logic to refresh authentication tokens
-    // For example:
-    const response = await fetch("https://api.ragna.io/auth/refresh", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken: "your-refresh-token" }),
-    });
-    const tokens = await response.json();
-    // Store new tokens
-    return tokens;
   },
   setTokensCallback: () => {
     // Logic to save the new tokens
