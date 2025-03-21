@@ -39,7 +39,8 @@ export class AiChatClient extends BaseApiClient {
   }
 
   /**
-   * Create a new chat.
+   * Create a new chat for the authenticated user.
+   *
    * @param assistantId - Assistant ID
    * @returns
    */
@@ -62,7 +63,8 @@ export class AiChatClient extends BaseApiClient {
   }
 
   /**
-   * Create a new chat message.
+   * Create a new chat message for a specific chat.
+   *
    * @param chatId - Chat ID
    * @param message - Message content
    * @returns
@@ -91,7 +93,8 @@ export class AiChatClient extends BaseApiClient {
   }
 
   /**
-   * Create a new chat stream.
+   * Create a new chat stream for a specific chat.
+   *
    * @param chatId - Chat ID
    * @param chatMessages - Array of chat messages
    * @param context - Context, optional
@@ -162,6 +165,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch a chat by its ID for the authenticated user.
+   *
    * @param chatId - Chat ID
    * @returns
    */
@@ -185,6 +189,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch all chats for the authenticated user.
+   *
    * @returns
    */
   public async fetchAllChats(): Promise<Chat[]> {
@@ -204,6 +209,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch all chats for the authenticated user with pagination.
+   *
    * @param page - Page number
    * @param limit - Number of items per page
    * @param searchQuery - Search query
@@ -229,6 +235,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch the latest chat for the authenticated user.
+   *
    * @returns
    */
   public async fetchLatestChat(): Promise<ChatResponse> {
@@ -248,6 +255,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch all chat messages for a specific chat.
+   *
    * @param chatId - Chat ID
    * @returns
    */
@@ -273,6 +281,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Delete all chat messages for a specific chat.
+   *
    * @param chatId - Chat ID
    * @returns
    */

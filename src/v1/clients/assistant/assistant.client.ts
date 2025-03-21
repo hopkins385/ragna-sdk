@@ -22,6 +22,20 @@ export class AssistantClient extends BaseApiClient {
     super();
   }
 
+  /**
+   * Create a new assistant for a team.
+   *
+   * @param teamId - Team ID
+   * @param llmId - LLM ID
+   * @param title - Title of the assistant
+   * @param description - Description of the assistant
+   * @param systemPrompt - System prompt for the assistant
+   * @param isShared - Whether the assistant is shared
+   * @param hasKnowledgeBase - Whether the assistant has a knowledge base
+   * @param hasWorkflow - Whether the assistant has a workflow
+   * @param tools - List of tools for the assistant
+   * @returns
+   */
   public async createAssistant(payload: CreateAssistantPayload) {
     const route = getRoute(ApiAssistantRoute.BASE);
     const response = await this.client
@@ -38,6 +52,13 @@ export class AssistantClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Create a new assistant from a template.
+   *
+   * @param templateId - Template ID
+   * @param language - Language of the assistant (e.g., "en", "de")
+   * @returns
+   */
   public async createAssistantFromTemplate(
     payload: CreateAssistantFromTemplatePayload
   ) {
@@ -56,6 +77,12 @@ export class AssistantClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Fetch an assistant by its ID.
+   *
+   * @param assistantId - Assistant ID
+   * @returns
+   */
   public async fetchAssistant(assistantId: string) {
     const route = getRoute(ApiAssistantRoute.ASSISTANT, {
       ":assistantId": assistantId,
@@ -73,6 +100,14 @@ export class AssistantClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Fetch all assistants of the team with optional pagination and search.
+   *
+   * @param page - Page number
+   * @param limit - Number of assistants per page
+   * @param searchQuery - Search query for filtering assistants
+   * @returns
+   */
   public async fetchAllAssistants({
     page,
     limit,
@@ -102,6 +137,13 @@ export class AssistantClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Update an existing assistant.
+   *
+   * @param assistantId - Assistant ID
+   * @param payload - Partial create assistant payload to update the assistant
+   * @returns
+   */
   public async updateAssistant(
     assistantId: string,
     payload: Partial<CreateAssistantPayload>
@@ -123,6 +165,13 @@ export class AssistantClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Update the knowledge base status of an assistant.
+   *
+   * @param assistantId - Assistant ID
+   * @param hasKnowledgeBase - true or false
+   * @returns
+   */
   public async updateHasKnowledgeBase(
     assistantId: string,
     hasKnowledgeBase: boolean
@@ -144,6 +193,12 @@ export class AssistantClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Delete an assistant by its ID.
+   *
+   * @param assistantId - Assistant ID
+   * @returns
+   */
   public async deleteAssistant(assistantId: string) {
     const route = getRoute(ApiAssistantRoute.ASSISTANT, {
       ":assistantId": assistantId,

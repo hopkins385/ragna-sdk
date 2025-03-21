@@ -18,6 +18,7 @@ export class AccountClient extends BaseApiClient {
 
   /**
    * Fetch account data for the authenticated user.
+   *
    * @returns
    */
   public async fetchAccountData() {
@@ -36,7 +37,8 @@ export class AccountClient extends BaseApiClient {
   }
 
   /**
-   * Fetch account data for the authenticated user.
+   * Update the name for the authenticated user.
+   *
    * @param firstName - First name of the user
    * @param lastName - Last name of the user
    * @returns
@@ -59,6 +61,7 @@ export class AccountClient extends BaseApiClient {
 
   /**
    * Update the password for the authenticated user.
+   *
    * @param oldPassword - Old password of the user
    * @param newPassword - New password of the user
    * @returns
@@ -84,6 +87,7 @@ export class AccountClient extends BaseApiClient {
 
   /**
    * Delete the account for the authenticated user.
+   *
    * @param password - Password of the user
    * @returns
    */
