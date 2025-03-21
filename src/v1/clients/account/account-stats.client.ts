@@ -19,6 +19,21 @@ export class AccountStatsClient extends BaseApiClient {
     super();
   }
 
+  /**
+   * Fetches token usage history for the authenticated user for a specific month and year.
+   *
+   * @param params - Object containing month and year
+   * @param params.month - Month in MM format (01-12)
+   * @param params.year - Year in YYYY format
+   *
+   * @example
+   * ```typescript
+   * const tokenHistory = await client.accountStats.fetchTokenHistory({
+   *   month: "03",
+   *   year: "2025"
+   * });
+   * ```
+   */
   public async fetchTokenHistory(params: TokenUsageHistoryParams) {
     const route = getRoute(ApiAccountStatsRoute.TOKEN_HISTORY);
     const response = await this.client

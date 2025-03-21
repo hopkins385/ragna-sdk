@@ -1,3 +1,13 @@
+import { AxiosError } from "axios";
+import RagnaClient from "ragnaClient";
+import { RequestAbortError } from "../../../errors/abort.error";
+import { BadRequestError } from "../../../errors/bad-request.error";
+import { BadResponseError } from "../../../errors/bad-response.error";
+import { ConnectionError } from "../../../errors/connection.error";
+import { getRoute, HttpStatus } from "../../../utils";
+import { BaseApiClient } from "../../base/base-api.client";
+import { PaginateParams } from "../../interfaces/paginate.interface";
+import { AiChatClientError } from "./error/ai-chat.error";
 import type {
   Chat,
   ChatMessage,
@@ -7,16 +17,6 @@ import type {
   CreateChatStreamPayload,
   InputChatId,
 } from "./interfaces";
-import { AiChatClientError } from "./error/ai-chat.error";
-import RagnaClient from "ragnaClient";
-import { AxiosError } from "axios";
-import { BaseApiClient } from "../../base/base-api.client";
-import { getRoute, HttpStatus } from "../../../utils";
-import { BadResponseError } from "../../../errors/bad-response.error";
-import { BadRequestError } from "../../../errors/bad-request.error";
-import { RequestAbortError } from "../../../errors/abort.error";
-import { ConnectionError } from "../../../errors/connection.error";
-import { PaginateParams } from "../../interfaces/paginate.interface";
 
 const ApiChatRoute = {
   BASE: "/chat", // POST
@@ -38,6 +38,11 @@ export class AiChatClient extends BaseApiClient {
     super();
   }
 
+  /**
+   * Create a new chat.
+   * @param assistantId - Assistant ID
+   * @returns
+   */
   public async createChat(payload: {
     assistantId: string;
   }): Promise<ChatResponse> {
@@ -56,6 +61,12 @@ export class AiChatClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Create a new chat message.
+   * @param chatId - Chat ID
+   * @param message - Message content
+   * @returns
+   */
   public async createChatMessage(
     payload: CreateChatMessagePayload
   ): Promise<ChatMessage> {
@@ -79,6 +90,16 @@ export class AiChatClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Create a new chat stream.
+   * @param chatId - Chat ID
+   * @param chatMessages - Array of chat messages
+   * @param context - Context, optional
+   * @param reasoningEffort - Reasoning effort (default: 0), optional
+   * @param maxTokens - Maximum tokens (default: 4000), optional
+   * @param temperature - Temperature (default: 80), optional
+   * @returns
+   */
   public async createChatStream(
     payload: CreateChatStreamPayload
   ): Promise<ReadableStream<Uint8Array>> {
@@ -139,6 +160,11 @@ export class AiChatClient extends BaseApiClient {
     }
   }
 
+  /**
+   * Fetch a chat by its ID for the authenticated user.
+   * @param chatId - Chat ID
+   * @returns
+   */
   async fetchChatById(chatId: InputChatId): Promise<ChatResponse> {
     if (!chatId) {
       throw new AiChatClientError("Chat ID is required");
@@ -157,6 +183,10 @@ export class AiChatClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Fetch all chats for the authenticated user.
+   * @returns
+   */
   public async fetchAllChats(): Promise<Chat[]> {
     const route = getRoute(ApiChatRoute.CHAT_ALL);
     const response = await this.client
@@ -172,6 +202,13 @@ export class AiChatClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Fetch all chats for the authenticated user with pagination.
+   * @param page - Page number
+   * @param limit - Number of items per page
+   * @param searchQuery - Search query
+   * @returns
+   */
   public async fetchAllChatsPaginated(
     params: PaginateParams
   ): Promise<ChatsPaginatedResponse> {
@@ -190,6 +227,10 @@ export class AiChatClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Fetch the latest chat for the authenticated user.
+   * @returns
+   */
   public async fetchLatestChat(): Promise<ChatResponse> {
     const route = getRoute(ApiChatRoute.CHAT_LATEST);
     const response = await this.client
@@ -205,6 +246,11 @@ export class AiChatClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Fetch all chat messages for a specific chat.
+   * @param chatId - Chat ID
+   * @returns
+   */
   public async deleteAllChatMessages(payload: { chatId: InputChatId }) {
     if (!payload.chatId) {
       throw new AiChatClientError("Chat ID is required");
@@ -225,6 +271,11 @@ export class AiChatClient extends BaseApiClient {
     return;
   }
 
+  /**
+   * Delete all chat messages for a specific chat.
+   * @param chatId - Chat ID
+   * @returns
+   */
   public async deleteChat(payload: { chatId: InputChatId }) {
     if (!payload.chatId) {
       throw new AiChatClientError("Chat ID is required");

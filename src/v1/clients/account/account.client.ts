@@ -16,6 +16,10 @@ export class AccountClient extends BaseApiClient {
     super();
   }
 
+  /**
+   * Fetch account data for the authenticated user.
+   * @returns
+   */
   public async fetchAccountData() {
     const route = getRoute(ApiAccountRoute.BASE);
     const response = await this.client
@@ -31,6 +35,12 @@ export class AccountClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Fetch account data for the authenticated user.
+   * @param firstName - First name of the user
+   * @param lastName - Last name of the user
+   * @returns
+   */
   public async updateName(payload: { firstName: string; lastName: string }) {
     const route = getRoute(ApiAccountRoute.NAME);
     const response = await this.client
@@ -47,6 +57,12 @@ export class AccountClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Update the password for the authenticated user.
+   * @param oldPassword - Old password of the user
+   * @param newPassword - New password of the user
+   * @returns
+   */
   public async updatePassword(payload: {
     oldPassword: string;
     newPassword: string;
@@ -66,6 +82,11 @@ export class AccountClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Delete the account for the authenticated user.
+   * @param password - Password of the user
+   * @returns
+   */
   public async deleteAccount(payload: { password: string }) {
     throw new Error("Method not implemented.");
     // TODO: dont send password
