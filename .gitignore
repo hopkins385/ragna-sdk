@@ -45,3 +45,7 @@ src/assets/images/*
 
 #npm
 .npmrc
+
+# typedoc
+docs
+docs/**

@@ -1,0 +1,8 @@
+{
+    "$schema": "https://typedoc-plugin-markdown.org/schema.json",
+    "entryPoints": ["./src/*", "./src/**/*"],
+    "plugin": ["typedoc-plugin-markdown"],
+    "readme": "./README.md",
+    "gitRevision": "main",
+    "packageOptions": { "gitRevision": "main" }
+}

@@ -1,7 +1,7 @@
+import { BadResponseError } from "../../../errors/bad-response.error";
+import RagnaClient from "../../../ragnaClient";
 import { getRoute, HttpStatus } from "../../../utils";
 import { BaseApiClient } from "../../base/base-api.client";
-import RagnaClient from "../../../ragnaClient";
-import { BadResponseError } from "../../../errors/bad-response.error";
 import {
   TokenUsageHistoryParams,
   TokenUsageHistoryResponse,
@@ -22,9 +22,9 @@ export class AccountStatsClient extends BaseApiClient {
   /**
    * Fetches token usage history for the authenticated user for a specific month and year.
    *
-   * @param params - Object containing month and year
-   * @param params.month - Month in MM format (01-12)
-   * @param params.year - Year in YYYY format
+   * @param month - Month in MM format (01-12)
+   * @param year - Year in YYYY format
+   * @returns
    *
    * @example
    * ```typescript
