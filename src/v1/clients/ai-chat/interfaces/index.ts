@@ -35,6 +35,10 @@ export interface ChatResponse {
   chat: Chat;
 }
 
+export interface CreateChatPayload {
+  assistantId: string;
+}
+
 export interface CreateChatMessagePayload {
   chatId: InputChatId;
   message: ChatMessage;

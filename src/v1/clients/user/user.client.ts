@@ -17,7 +17,9 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Fetches all users from the system
+   * Requires admin privileges.\
+   * Fetches all users that belong to the authenticated users organization.
+   * @returns
    */
   async fetchAllUsers(): Promise<UsersPaginated> {
     const route = getRoute(ApiUserRoute.BASE);
@@ -35,8 +37,10 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Fetches a user by their ID
-   * @param id User ID
+   * Requires admin privileges.\
+   * Fetches a user by ID that belongs to the authenticated users organization.
+   * @param id {string} - User ID
+   * @returns
    */
   async fetchUserById(id: string): Promise<User> {
     const userId = id.toLowerCase();
@@ -57,8 +61,10 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Creates a new user
-   * @param user User data
+   * Requires admin privileges.\
+   * Creates a new user in the authenticated users organization.
+   * @param user {UserCreate} - New User data
+   * @returns
    */
   async createUser(user: UserCreate): Promise<User> {
     if (!user.name || !user.email || !user.password) {
@@ -81,8 +87,11 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Updates an existing user
-   * @param user User data with ID
+   * Requires admin privileges.\
+   * Updates a user in the authenticated users organization.
+   * @param id {string} - User ID
+   * @param updateData {UserUpdate} - User data to update
+   * @returns
    */
   async updateUser(id: string, updateData: UserUpdate): Promise<User> {
     const userId = id.toLowerCase();
@@ -104,8 +113,10 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Deletes a user
-   * @param id User ID
+   * Requires admin privileges.\
+   * Deletes a user in the authenticated users organization.
+   * @param id {string} - User ID
+   * @returns
    */
   async deleteUser(id: string): Promise<void> {
     const userId = id.toLowerCase();

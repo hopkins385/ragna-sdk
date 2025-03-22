@@ -24,16 +24,7 @@ export class AssistantClient extends BaseApiClient {
 
   /**
    * Create a new assistant for a team.
-   *
-   * @param teamId - Team ID
-   * @param llmId - LLM ID
-   * @param title - Title of the assistant
-   * @param description - Description of the assistant
-   * @param systemPrompt - System prompt for the assistant
-   * @param isShared - Whether the assistant is shared
-   * @param hasKnowledgeBase - Whether the assistant has a knowledge base
-   * @param hasWorkflow - Whether the assistant has a workflow
-   * @param tools - List of tools for the assistant
+   * @param payload {CreateAssistantPayload} - Payload to create an assistant
    * @returns
    */
   public async createAssistant(payload: CreateAssistantPayload) {
@@ -54,9 +45,7 @@ export class AssistantClient extends BaseApiClient {
 
   /**
    * Create a new assistant from a template.
-   *
-   * @param templateId - Template ID
-   * @param language - Language of the assistant (e.g., "en", "de")
+   * @param payload {CreateAssistantFromTemplatePayload} - Payload to create an assistant from a template
    * @returns
    */
   public async createAssistantFromTemplate(
@@ -79,8 +68,7 @@ export class AssistantClient extends BaseApiClient {
 
   /**
    * Fetch an assistant by its ID.
-   *
-   * @param assistantId - Assistant ID
+   * @param assistantId {string} - Assistant ID
    * @returns
    */
   public async fetchAssistant(assistantId: string) {
@@ -102,10 +90,9 @@ export class AssistantClient extends BaseApiClient {
 
   /**
    * Fetch all assistants of the team with optional pagination and search.
-   *
-   * @param page - Page number
-   * @param limit - Number of assistants per page
-   * @param searchQuery - Search query for filtering assistants
+   * @param page {number} - Page number for pagination
+   * @param limit {number} - Number of assistants per page
+   * @param searchQuery {string} - Optional search query to filter assistants by title
    * @returns
    */
   public async fetchAllAssistants({
@@ -139,9 +126,8 @@ export class AssistantClient extends BaseApiClient {
 
   /**
    * Update an existing assistant.
-   *
-   * @param assistantId - Assistant ID
-   * @param payload - Partial create assistant payload to update the assistant
+   * @param assistantId {string} - Assistant ID
+   * @param payload {Partial<CreateAssistantPayload>} - Partial payload to update the assistant
    * @returns
    */
   public async updateAssistant(
@@ -167,9 +153,8 @@ export class AssistantClient extends BaseApiClient {
 
   /**
    * Update the knowledge base status of an assistant.
-   *
-   * @param assistantId - Assistant ID
-   * @param hasKnowledgeBase - true or false
+   * @param assistantId {string} - Assistant ID
+   * @param hasKnowledgeBase {boolean} - Whether the assistant has a knowledge base
    * @returns
    */
   public async updateHasKnowledgeBase(
@@ -195,8 +180,7 @@ export class AssistantClient extends BaseApiClient {
 
   /**
    * Delete an assistant by its ID.
-   *
-   * @param assistantId - Assistant ID
+   * @param assistantId {string} - Assistant ID
    * @returns
    */
   public async deleteAssistant(assistantId: string) {

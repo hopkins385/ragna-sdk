@@ -14,6 +14,7 @@ import type {
   ChatResponse,
   ChatsPaginatedResponse,
   CreateChatMessagePayload,
+  CreateChatPayload,
   CreateChatStreamPayload,
   InputChatId,
 } from "./interfaces";
@@ -40,13 +41,10 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Create a new chat for the authenticated user.
-   *
-   * @param assistantId - Assistant ID
+   * @param payload {CreateChatPayloadt} - The payload to create the chat
    * @returns
    */
-  public async createChat(payload: {
-    assistantId: string;
-  }): Promise<ChatResponse> {
+  public async createChat(payload: CreateChatPayload): Promise<ChatResponse> {
     const route = getRoute(ApiChatRoute.BASE);
     const response = await this.client
       .POST<ChatResponse, { assistantId: string }>()
@@ -64,9 +62,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Create a new chat message for a specific chat.
-   *
-   * @param chatId - Chat ID
-   * @param message - Message content
+   * @param payload {CreateChatMessagePayload} - The payload to create the chat message
    * @returns
    */
   public async createChatMessage(
@@ -94,13 +90,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Create a new chat stream for a specific chat.
-   *
-   * @param chatId - Chat ID
-   * @param chatMessages - Array of chat messages
-   * @param context - Context, optional
-   * @param reasoningEffort - Reasoning effort (default: 0), optional
-   * @param maxTokens - Maximum tokens (default: 4000), optional
-   * @param temperature - Temperature (default: 80), optional
+   * @param payload {CreateChatStreamPayload} - The payload to create the chat stream
    * @returns
    */
   public async createChatStream(
@@ -165,8 +155,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch a chat by its ID for the authenticated user.
-   *
-   * @param chatId - Chat ID
+   * @param chatId {InputChatId} - The ID of the chat to fetch
    * @returns
    */
   async fetchChatById(chatId: InputChatId): Promise<ChatResponse> {
@@ -189,7 +178,6 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch all chats for the authenticated user.
-   *
    * @returns
    */
   public async fetchAllChats(): Promise<Chat[]> {
@@ -209,10 +197,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch all chats for the authenticated user with pagination.
-   *
-   * @param page - Page number
-   * @param limit - Number of items per page
-   * @param searchQuery - Search query
+   * @param params {PaginateParams} - The pagination parameters
    * @returns
    */
   public async fetchAllChatsPaginated(
@@ -235,7 +220,6 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch the latest chat for the authenticated user.
-   *
    * @returns
    */
   public async fetchLatestChat(): Promise<ChatResponse> {
@@ -255,8 +239,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Fetch all chat messages for a specific chat.
-   *
-   * @param chatId - Chat ID
+   * @param payload {InputChatId} - The payload to fetch chat messages
    * @returns
    */
   public async deleteAllChatMessages(payload: { chatId: InputChatId }) {
@@ -281,8 +264,7 @@ export class AiChatClient extends BaseApiClient {
 
   /**
    * Delete all chat messages for a specific chat.
-   *
-   * @param chatId - Chat ID
+   * @param payload {InputChatId} - The payload to delete all chat messages  of a chat
    * @returns
    */
   public async deleteChat(payload: { chatId: InputChatId }) {
