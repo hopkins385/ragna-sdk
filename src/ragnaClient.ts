@@ -1,14 +1,12 @@
 import type { AxiosError, AxiosRequestConfig } from "axios";
 import { BaseClient } from "./baseClient";
 import { configureAuthorizationHeader } from "./utils";
-import { AuthRoutePath } from "./v1/routes";
-import { AiChatClient } from "./v1/clients/ai-chat";
 import { AccountClient, AccountStatsClient } from "./v1/clients/account";
+import { AiChatClient } from "./v1/clients/ai-chat";
 import { AssistantClient } from "./v1/clients/assistant";
-import { AuthClient } from "./v1/clients/auth";
-import { AuthProviderClient } from "./v1/clients/auth";
 import { AssistantTemplateClient } from "./v1/clients/assistant-template";
 import { AssistantToolClient } from "./v1/clients/assistant-tool";
+import { AuthClient, AuthProviderClient } from "./v1/clients/auth";
 import { CollectionClient } from "./v1/clients/collection";
 import { CollectionAbleClient } from "./v1/clients/collection-able";
 import { EditorClient } from "./v1/clients/editor";
@@ -23,16 +21,19 @@ import { UserClient } from "./v1/clients/user";
 import { UserFavoriteClient } from "./v1/clients/user-favorite";
 import { WorkflowClient } from "./v1/clients/workflow";
 import { WorkflowStepClient } from "./v1/clients/workflow-step";
+import { AuthRoutePath } from "./v1/routes";
+import { StreamUtils } from "./v1/utils/stream.utils";
 
-type CallBack = () => any;
+type CallBack = () => unknown;
 type GetTokenCallBack = () => string | null;
-type AsyncCallBack = () => Promise<any>;
+type AsyncCallBack = () => Promise<unknown>;
 
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: number;
 }
 
 export class RagnaClient extends BaseClient {
+  public readonly utils: StreamUtils;
   public readonly auth: AuthClient;
   public readonly authProvider: AuthProviderClient;
   public readonly aiChat: AiChatClient;
@@ -64,7 +65,7 @@ export class RagnaClient extends BaseClient {
 
   private failedQueue: Array<{
     resolve: (value?: unknown) => void;
-    reject: (error: any) => void;
+    reject: (error: unknown) => void;
   }> = [];
 
   constructor(options?: {
@@ -78,6 +79,7 @@ export class RagnaClient extends BaseClient {
   }) {
     super(options);
 
+    this.utils = new StreamUtils();
     this.auth = new AuthClient(this);
     this.authProvider = new AuthProviderClient(this);
     this.aiChat = new AiChatClient(this);
@@ -188,7 +190,7 @@ export class RagnaClient extends BaseClient {
     );
   }
 
-  private processQueue(error: any, token: string | null = null) {
+  private processQueue(error: unknown, token: string | null = null) {
     this.failedQueue.forEach((prom) => {
       if (error) {
         prom.reject(error);
