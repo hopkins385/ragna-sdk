@@ -3,7 +3,7 @@ import type { PaginateMeta } from "v1/interfaces/paginate-meta.interface";
 
 export type InputChatId = string | null | undefined;
 
-export type ChatMessageType = "text" | "tool";
+export type ChatMessageType = "text" | "image" | "tool-call" | "tool-result";
 export type ChatMessageRole = "user" | "assistant" | "system" | "tool";
 
 export interface Chat {
@@ -30,7 +30,7 @@ export interface ChatMessageContent {
 export interface ChatMessage {
   type: ChatMessageType;
   role: ChatMessageRole;
-  content: ChatMessageContent;
+  content: ChatMessageContent[];
   visionContent?: ChatMessageVisionContent[];
 }
 
@@ -55,7 +55,7 @@ export interface CreateChatMessagePayload {
 export interface CreateChatMessageStreamPayload {
   chatId: InputChatId;
   type: ChatMessage["type"];
-  content: ChatMessageContent;
+  content: ChatMessageContent[];
   visionContent?: ChatMessage["visionContent"];
   context?: string;
 }
