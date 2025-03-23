@@ -3,6 +3,9 @@ import type { PaginateMeta } from "v1/interfaces/paginate-meta.interface";
 
 export type InputChatId = string | null | undefined;
 
+export type ChatMessageType = "text" | "tool";
+export type ChatMessageRole = "user" | "assistant" | "system" | "tool";
+
 export interface Chat {
   id: string;
   title: string;
@@ -19,10 +22,15 @@ export interface VisionImageUrlContent {
 
 export type ChatMessageVisionContent = VisionImageUrlContent;
 
+export interface ChatMessageContent {
+  type: ChatMessageType;
+  text: string;
+}
+
 export interface ChatMessage {
-  type: "text" | "image";
-  role: "user" | "assistant";
-  content: string;
+  type: ChatMessageType;
+  role: ChatMessageRole;
+  content: ChatMessageContent;
   visionContent?: ChatMessageVisionContent[];
 }
 
@@ -47,11 +55,9 @@ export interface CreateChatMessagePayload {
 export interface CreateChatMessageStreamPayload {
   chatId: InputChatId;
   type: ChatMessage["type"];
-  content: ChatMessage["content"];
+  content: ChatMessageContent;
   visionContent?: ChatMessage["visionContent"];
   context?: string;
-  // model?: string; // deprecated
-  // provider?: string; // deprecated
 }
 
 export interface CreateChatStreamPayload {
@@ -61,6 +67,4 @@ export interface CreateChatStreamPayload {
   reasoningEffort?: number;
   maxTokens?: number;
   temperature?: number;
-  // provider?: string; // deprecated
-  // model?: string; // deprecated
 }
