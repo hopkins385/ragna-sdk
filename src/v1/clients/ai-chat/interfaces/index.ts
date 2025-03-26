@@ -28,6 +28,7 @@ export interface ChatMessageContent {
 }
 
 export interface ChatMessage {
+  id: string;
   type: ChatMessageType;
   role: ChatMessageRole;
   content: ChatMessageContent[];

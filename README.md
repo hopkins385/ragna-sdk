@@ -32,8 +32,6 @@ You can create an instance of the `RagnaClient` by providing optional configurat
 
 ```typescript
 const client = new RagnaClient({
-  baseURL: "https://api.ragna.io",
-  timeout: 300000,
   getAccessTokenCallback: () => "your-access-token",
   getRefreshTokenCallback: () => "your-refresh-token",
   refreshAuthCallback: async () => {
