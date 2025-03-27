@@ -37,12 +37,6 @@ const client = new RagnaClient({
   refreshAuthCallback: async () => {
     // Custom logic to refresh authentication tokens
   },
-  setTokensCallback: () => {
-    // Logic to save the new tokens
-  },
-  onRefreshFailedCallback: () => {
-    // Logic to handle failed token refresh
-  },
 });
 ```
 
