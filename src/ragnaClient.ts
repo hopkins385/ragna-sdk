@@ -13,6 +13,7 @@ import { EditorClient } from "./v1/clients/editor";
 import { GoogleDriveClient } from "./v1/clients/google-drive";
 import { LLMClient } from "./v1/clients/llm";
 import { MediaClient } from "./v1/clients/media";
+import NerClient from "./v1/clients/ner/ner.client";
 import { OnboardingClient } from "./v1/clients/onboarding";
 import { PromptWizardClient } from "./v1/clients/prompt-wizard";
 import { RecordClient } from "./v1/clients/record";
@@ -47,6 +48,7 @@ export class RagnaClient extends BaseClient {
   public readonly editor: EditorClient;
   public readonly googleDrive: GoogleDriveClient;
   public readonly llm: LLMClient;
+  public readonly ner: NerClient;
   public readonly media: MediaClient;
   public readonly onboarding: OnboardingClient;
   public readonly promptWizard: PromptWizardClient;
@@ -93,6 +95,7 @@ export class RagnaClient extends BaseClient {
     this.editor = new EditorClient(this);
     this.googleDrive = new GoogleDriveClient(this);
     this.llm = new LLMClient(this);
+    this.ner = new NerClient(this);
     this.media = new MediaClient(this);
     this.onboarding = new OnboardingClient(this);
     this.promptWizard = new PromptWizardClient(this);

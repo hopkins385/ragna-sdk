@@ -13,7 +13,7 @@ export class PromptWizardClient extends BaseApiClient {
     super();
   }
 
-  async createPrompt(payload: {}) {
+  async createPrompt(payload: {}): Promise<CreatePromptResponse> {
     const route = getRoute(ApiPromptWizardRoute.CREATE);
     const response = await this.client
       .POST<CreatePromptResponse, {}>()
