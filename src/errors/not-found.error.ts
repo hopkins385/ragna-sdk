@@ -3,7 +3,10 @@ export class NotFoundError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'NotFoundError';
+    if (!this.message) {
+      this.message = "Not Found";
+    }
+    this.name = "NotFoundError";
     this.code = 404;
   }
 }

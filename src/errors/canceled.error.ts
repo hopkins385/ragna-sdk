@@ -3,7 +3,10 @@ export class CanceledError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'CanceledError';
+    if (!this.message) {
+      this.message = "Request canceled";
+    }
+    this.name = "CanceledError";
     this.code = 499;
   }
 }

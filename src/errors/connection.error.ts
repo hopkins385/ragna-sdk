@@ -3,7 +3,10 @@ export class ConnectionError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'ConnectionError';
+    if (!this.message) {
+      this.message = "Connection Error";
+    }
+    this.name = "ConnectionError";
     this.code = 500;
   }
 }

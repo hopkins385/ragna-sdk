@@ -3,7 +3,10 @@ export class RequestAbortError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'AbortError';
+    if (!this.message) {
+      this.message = "Request aborted";
+    }
+    this.name = "AbortError";
     this.code = 499;
   }
 }

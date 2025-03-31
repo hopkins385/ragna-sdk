@@ -1,15 +1,21 @@
-import { AxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import { RequestAbortError } from '../errors/abort.error';
-import { BadRequestError } from '../errors/bad-request.error';
-import { ConnectionError } from '../errors/connection.error';
-import { ForbiddenError } from '../errors/forbidden.error';
-import { NotFoundError } from '../errors/not-found.error';
-import { UnauthorizedError } from '../errors/unauthorized.error';
-import { UnknownError } from '../errors/unknown.error';
-import { ValidationError } from '../errors/validation.error';
+import {
+  AxiosError,
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+} from "axios";
+import { InternalServerError } from "../errors";
+import { RequestAbortError } from "../errors/abort.error";
+import { BadRequestError } from "../errors/bad-request.error";
+import { ConnectionError } from "../errors/connection.error";
+import { ForbiddenError } from "../errors/forbidden.error";
+import { NotFoundError } from "../errors/not-found.error";
+import { UnauthorizedError } from "../errors/unauthorized.error";
+import { UnknownError } from "../errors/unknown.error";
+import { ValidationError } from "../errors/validation.error";
 
-export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
-export type ResponseType = 'json' | 'text' | 'blob' | 'arraybuffer';
+export type HttpMethod = "GET" | "POST" | "PATCH" | "DELETE";
+export type ResponseType = "json" | "text" | "blob" | "arraybuffer";
 
 interface RequestOptions<TParams = never, TData = never> {
   method: HttpMethod;
@@ -30,11 +36,11 @@ export class RequestBuilder<TResponse, TParams = never, TData = never> {
   private instance: AxiosInstance;
   private errorHandler: ErrorHandler | null = null;
   private config: RequestOptions<TParams, TData> = {
-    method: 'GET',
-    url: '',
+    method: "GET",
+    url: "",
   };
 
-  constructor(axiosInstance: AxiosInstance, method: HttpMethod = 'GET') {
+  constructor(axiosInstance: AxiosInstance, method: HttpMethod = "GET") {
     this.instance = axiosInstance;
     this.config.method = method;
   }
@@ -90,13 +96,13 @@ export class RequestBuilder<TResponse, TParams = never, TData = never> {
       return await this.instance.request<TResponse>(axiosConfig);
     } catch (error) {
       if (error instanceof AxiosError) {
-        if (error.name === 'AbortError') {
+        if (error.name === "AbortError") {
           throw new RequestAbortError();
         }
-        if (error.code === 'ERR_NETWORK') {
+        if (error.code === "ERR_NETWORK") {
           throw new ConnectionError();
         }
-        if (error.code === 'ERR_CANCELED') {
+        if (error.code === "ERR_CANCELED") {
           throw new RequestAbortError();
         }
         if (this.errorHandler) {
@@ -106,7 +112,7 @@ export class RequestBuilder<TResponse, TParams = never, TData = never> {
         }
       }
       if (error instanceof Error) {
-        if (error.name === 'AbortError') {
+        if (error.name === "AbortError") {
           throw new RequestAbortError();
         }
       }
@@ -127,6 +133,8 @@ function defaultErrorHandler(error: AxiosError) {
       throw new NotFoundError();
     case 422:
       throw new ValidationError();
+    case 500:
+      throw new InternalServerError();
     default:
       throw new UnknownError(error.message);
   }

@@ -3,7 +3,10 @@ export class ConnRefusedError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'ConnRefusedError';
+    if (!this.message) {
+      this.message = "Connection refused";
+    }
+    this.name = "ConnRefusedError";
     this.code = 500;
   }
 }

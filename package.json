@@ -1,5 +1,5 @@
 {
-  "name": "ragna-sdk",
+  "name": "@hopkins385/ragna-sdk",
   "version": "0.61.0",
   "description": "A TypeScript SDK for interacting with the RAGNA API.",
   "author": "Sven Stadhouders",
@@ -49,11 +49,13 @@
     "dist"
   ],
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hopkins385/ragna-sdk.git"
+    "url": "https://github.com/hopkins385/ragna-sdk.git"
   },
   "homepage": "https://github.com/hopkins385/ragna-sdk#readme",
   "bugs": {
     "url": "https://github.com/hopkins385/ragna-sdk/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

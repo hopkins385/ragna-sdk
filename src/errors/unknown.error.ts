@@ -3,7 +3,10 @@ export class UnknownError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'UnknownError';
+    if (!this.message) {
+      this.message = "Unknown Error";
+    }
+    this.name = "UnknownError";
     this.code = 500;
   }
 }

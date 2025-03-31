@@ -3,7 +3,10 @@ export class BadRequestError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'BadRequestError';
+    if (!this.message) {
+      this.message = "Bad Request";
+    }
+    this.name = "BadRequestError";
     this.code = 400;
   }
 }

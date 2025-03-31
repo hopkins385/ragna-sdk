@@ -3,7 +3,10 @@ export class InternalServerError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'InternalServerError';
+    if (!this.message) {
+      this.message = "Internal Server Error";
+    }
+    this.name = "InternalServerError";
     this.code = 500;
   }
 }

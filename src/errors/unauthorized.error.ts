@@ -3,7 +3,10 @@ export class UnauthorizedError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'UnauthorizedError';
+    if (!this.message) {
+      this.message = "Unauthorized";
+    }
+    this.name = "UnauthorizedError";
     this.code = 401;
   }
 }

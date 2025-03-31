@@ -3,7 +3,10 @@ export class ForbiddenError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'ForbiddenError';
+    if (!this.message) {
+      this.message = "Forbidden";
+    }
+    this.name = "ForbiddenError";
     this.code = 403;
   }
 }

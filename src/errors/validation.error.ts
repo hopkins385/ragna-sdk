@@ -3,7 +3,10 @@ export class ValidationError extends Error {
 
   constructor(message?: string) {
     super(message);
-    this.name = 'ValidationError';
+    if (!this.message) {
+      this.message = "Validation Error";
+    }
+    this.name = "ValidationError";
     this.code = 422;
   }
 }
