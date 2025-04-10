@@ -5,6 +5,8 @@ import { getRoute, HttpStatus } from "../../../utils";
 import { BaseApiClient } from "../../base/base-api.client";
 import {
   AuthCredentials,
+  AuthResetPasswordData,
+  AuthResetPasswordResponse,
   AuthUserResponse,
   EmptyBodyData,
   GoogleAuthCallbackQuery,
@@ -16,9 +18,10 @@ import {
 export const ApiAuthRoute = {
   LOGIN: "/auth/login", // POST
   LOGOUT: "/auth/logout", // POST
-  REGISTER: "/auth/register", // POST
+  // REGISTER: "/auth/register", // POST
   REFRESH: "/auth/refresh", // POST
   SESSION: "/auth/session", // GET
+  RESET_PASSWORD: "/auth/reset-password", // POST
   SOCIAL_AUTH_URL: "/auth/:provider/url", // GET
   CALLBACK_GOOGLE: "/auth/google/callback", // POST
 } as const;
@@ -30,6 +33,12 @@ export class AuthClient extends BaseApiClient {
     super();
   }
 
+  /**
+   * Login user
+   * @param email User's email
+   * @param password User's password
+   * @returns
+   */
   async loginUser(body: AuthCredentials) {
     this.abortRequest();
     const route = getRoute(ApiAuthRoute.LOGIN);
@@ -47,6 +56,10 @@ export class AuthClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Logout user
+   * @returns
+   */
   async logoutUser(): Promise<void> {
     this.abortRequest();
     const route = getRoute(ApiAuthRoute.LOGOUT);
@@ -65,8 +78,19 @@ export class AuthClient extends BaseApiClient {
     return;
   }
 
+  /**
+   * Register a new user
+   * @param name User's name
+   * @param email User's email
+   * @param password User's password
+   * @param termsAndConditions Terms and conditions acceptance
+   * @param invitationCode Invitation code
+   * @returns
+   * @deprecated Use admin.createUser or admin.inviteUser instead
+   */
   async registerUser(payload: RegistrationCredentials) {
-    this.abortRequest();
+    throw new Error("Method deprecated.");
+    /*this.abortRequest();
     const route = getRoute(ApiAuthRoute.REGISTER);
     const response = await this.client
       .POST<AuthUserResponse, RegistrationCredentials>()
@@ -79,9 +103,36 @@ export class AuthClient extends BaseApiClient {
       throw new BadResponseError();
     }
 
+    return response.data;*/
+  }
+
+  /**
+   * Reset user password via token
+   * @param token Password reset token
+   * @param password User's new password
+   * @returns
+   */
+  async resetPassword(payload: AuthResetPasswordData) {
+    this.abortRequest();
+    const route = getRoute(ApiAuthRoute.RESET_PASSWORD);
+    const response = await this.client
+      .POST<AuthResetPasswordResponse, AuthResetPasswordData>()
+      .setRoute(route)
+      .setData(payload)
+      .setSignal(this.ac.signal)
+      .send();
+
+    if (response.status !== HttpStatus.CREATED) {
+      throw new BadResponseError();
+    }
+
     return response.data;
   }
 
+  /**
+   * Fetch active user session
+   * @returns
+   */
   async fetchSession() {
     const route = getRoute(ApiAuthRoute.SESSION);
     const response = await this.client
@@ -97,6 +148,11 @@ export class AuthClient extends BaseApiClient {
     return response.data;
   }
 
+  /**
+   * Retrieves new access and refresh tokens, if session is valid
+   * @info The header needs to contain the refresh token which is automatically added by this sdk for this request
+   * @returns
+   */
   async refreshTokens() {
     const route = getRoute(ApiAuthRoute.REFRESH);
     const response = await this.client

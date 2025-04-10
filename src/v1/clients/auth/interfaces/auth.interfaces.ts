@@ -8,11 +8,20 @@ export interface RegistrationCredentials {
   email: string;
   password: string;
   termsAndConditions: boolean;
-  invitationCode?: string;
+  invitationCode: string;
 }
 
 export interface AuthUserResponse {
   userData: AuthUserData;
+}
+
+export interface AuthResetPasswordResponse {
+  success: boolean;
+}
+
+export interface AuthResetPasswordData {
+  token: string;
+  password: string;
 }
 
 export interface AuthUserData {

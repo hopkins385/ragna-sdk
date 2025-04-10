@@ -2,6 +2,7 @@ import type { AxiosError, AxiosRequestConfig } from "axios";
 import { BaseClient } from "./baseClient";
 import { configureAuthorizationHeader } from "./utils";
 import { AccountClient, AccountStatsClient } from "./v1/clients/account";
+import { AdminClient } from "./v1/clients/admin/admin.client";
 import { AiChatClient } from "./v1/clients/ai-chat";
 import { AssistantClient } from "./v1/clients/assistant";
 import { AssistantTemplateClient } from "./v1/clients/assistant-template";
@@ -18,7 +19,6 @@ import { OnboardingClient } from "./v1/clients/onboarding";
 import { PromptWizardClient } from "./v1/clients/prompt-wizard";
 import { RecordClient } from "./v1/clients/record";
 import { TextToImageClient } from "./v1/clients/text-to-image";
-import { UserClient } from "./v1/clients/user";
 import { UserFavoriteClient } from "./v1/clients/user-favorite";
 import { WorkflowClient } from "./v1/clients/workflow";
 import { WorkflowStepClient } from "./v1/clients/workflow-step";
@@ -35,6 +35,7 @@ interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
 
 export class RagnaClient extends BaseClient {
   public readonly utils: StreamUtils;
+  public readonly admin: AdminClient;
   public readonly auth: AuthClient;
   public readonly authProvider: AuthProviderClient;
   public readonly aiChat: AiChatClient;
@@ -54,7 +55,6 @@ export class RagnaClient extends BaseClient {
   public readonly promptWizard: PromptWizardClient;
   public readonly record: RecordClient;
   public readonly textToImage: TextToImageClient;
-  public readonly user: UserClient;
   public readonly userFavorite: UserFavoriteClient;
   public readonly workflow: WorkflowClient;
   public readonly workflowStep: WorkflowStepClient;
@@ -83,6 +83,7 @@ export class RagnaClient extends BaseClient {
 
     this.utils = new StreamUtils();
     this.auth = new AuthClient(this);
+    this.admin = new AdminClient(this);
     this.authProvider = new AuthProviderClient(this);
     this.aiChat = new AiChatClient(this);
     this.account = new AccountClient(this);
@@ -101,7 +102,6 @@ export class RagnaClient extends BaseClient {
     this.promptWizard = new PromptWizardClient(this);
     this.record = new RecordClient(this);
     this.textToImage = new TextToImageClient(this);
-    this.user = new UserClient(this);
     this.userFavorite = new UserFavoriteClient(this);
     this.workflow = new WorkflowClient(this);
     this.workflowStep = new WorkflowStepClient(this);

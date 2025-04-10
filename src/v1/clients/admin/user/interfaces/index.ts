@@ -1,4 +1,4 @@
-import { PaginateMeta } from "../../../interfaces";
+import { PaginateMeta } from "../../../../interfaces";
 
 export interface User {
   id: string;
@@ -13,4 +13,13 @@ export interface UsersPaginated {
 
 export interface UserCreate extends Omit<User, "id"> {
   password: string;
+}
+
+export interface InviteUserData extends Omit<User, "id"> {
+  role?: string;
+  isAdmin?: boolean;
+}
+
+export interface InviteUserResponse {
+  inviteToken: string;
 }
