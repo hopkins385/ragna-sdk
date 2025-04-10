@@ -2,6 +2,7 @@ export * from "./abort.error";
 export * from "./bad-request.error";
 export * from "./bad-response.error";
 export * from "./canceled.error";
+export * from "./conflict.error";
 export * from "./conn-refused.error";
 export * from "./connection.error";
 export * from "./forbidden.error";

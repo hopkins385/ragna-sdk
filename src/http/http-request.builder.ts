@@ -7,6 +7,7 @@ import {
 import { InternalServerError } from "../errors";
 import { RequestAbortError } from "../errors/abort.error";
 import { BadRequestError } from "../errors/bad-request.error";
+import { ConflictError } from "../errors/conflict.error";
 import { ConnectionError } from "../errors/connection.error";
 import { ForbiddenError } from "../errors/forbidden.error";
 import { NotFoundError } from "../errors/not-found.error";
@@ -131,6 +132,8 @@ function defaultErrorHandler(error: AxiosError) {
       throw new ForbiddenError();
     case 404:
       throw new NotFoundError();
+    case 409:
+      throw new ConflictError();
     case 422:
       throw new ValidationError();
     case 500:

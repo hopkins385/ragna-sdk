@@ -2,6 +2,7 @@ import { BadResponseError } from "../../../../errors";
 import RagnaClient from "../../../../ragnaClient";
 import { getRoute, HttpStatus } from "../../../../utils";
 import { BaseApiClient } from "../../../base/base-api.client";
+import { PaginateParams } from "../../../interfaces";
 import {
   InviteUserData,
   InviteUserResponse,
@@ -28,11 +29,12 @@ export class UserClient extends BaseApiClient {
    * Fetches all users that belong to the authenticated users organization.
    * @returns
    */
-  async fetchAllUsers(): Promise<UsersPaginated> {
+  async fetchAllUsers(params: PaginateParams): Promise<UsersPaginated> {
     const route = getRoute(ApiUserRoute.BASE);
     const response = await this.client
-      .GET<UsersPaginated>()
+      .GET<UsersPaginated, PaginateParams>()
       .setRoute(route)
+      .setParams(params)
       .setSignal(this.ac.signal)
       .send();
 
