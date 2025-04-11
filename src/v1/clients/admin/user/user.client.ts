@@ -4,13 +4,13 @@ import { getRoute, HttpStatus } from "../../../../utils";
 import { BaseApiClient } from "../../../base/base-api.client";
 import { PaginateParams } from "../../../interfaces";
 import {
+  CreateUserData,
   FetchUserResponse,
   InviteUserData,
   InviteUserResponse,
   UpdateUserData,
   UpdateUserResponse,
   User,
-  UserCreate,
   UsersPaginated,
 } from "./interfaces";
 
@@ -26,8 +26,10 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Requires admin privileges.\
-   * Fetches all users that belong to the authenticated users organization.
+   * Fetches all users that belong to the authenticated users organization with pagination.
+   * @info Requires admin privileges.
+   * @param params.page - The page number to fetch
+   * @param params.limit - The number of items per page
    * @returns
    */
   async fetchAllUsers(params: PaginateParams): Promise<UsersPaginated> {
@@ -47,19 +49,13 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Requires admin privileges.\
    * Fetches a user by ID that belongs to the authenticated users organization.
-   * @param id - UserID
+   * @info Requires admin privileges.
+   * @param payload.userId - The ID of the user to fetch
    * @returns
    */
-  async fetchUserById({
-    userId,
-  }: {
-    userId: string;
-  }): Promise<FetchUserResponse> {
-    if (!userId) throw new Error("User ID is required");
-
-    const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
+  async fetchUserById(payload: { userId: string }): Promise<FetchUserResponse> {
+    const route = getRoute(ApiUserRoute.USER, { ":userId": payload.userId });
     const response = await this.client
       .GET<FetchUserResponse>()
       .setRoute(route)
@@ -74,19 +70,19 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Requires admin privileges.\
    * Creates a new user in the authenticated users organization.
-   * @param name - Full name
-   * @param email - User email
-   * @param password - User password
+   * @info Requires admin privileges.
+   * @param data.name - Full name
+   * @param data.email - User email
+   * @param data.password - User password
    * @returns
    */
-  async createUser(user: UserCreate): Promise<User> {
+  async createUser(data: CreateUserData): Promise<User> {
     const route = getRoute(ApiUserRoute.BASE);
     const response = await this.client
-      .POST<User, UserCreate>()
+      .POST<User, CreateUserData>()
       .setRoute(route)
-      .setData(user)
+      .setData(data)
       .setSignal(this.ac.signal)
       .send();
 
@@ -98,10 +94,10 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Requires admin privileges.\
-   * Creates a new user in the authenticated users organization and returns an invite link.
-   * @param name - Full name
-   * @param email - User email
+   * Creates a new user in the authenticated users organization and returns an invite token.
+   * @info Requires admin privileges.
+   * @param data.name - Full name
+   * @param data.email - User email
    * @returns
    */
   async inviteUser(data: InviteUserData): Promise<InviteUserResponse> {
@@ -121,26 +117,21 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Requires admin privileges.\
    * Updates a user in the authenticated users organization.
-   * @param userId - User ID
-   * @param data - User data
+   * @info Requires admin privileges.
+   * @param payload.userId - The ID of the user to update
+   * @param payload.data - User data
    * @returns
    */
-  async updateUser({
-    userId,
-    data,
-  }: {
+  async updateUser(payload: {
     userId: string;
     data: UpdateUserData;
   }): Promise<UpdateUserResponse> {
-    if (!userId) throw new Error("User ID is required");
-
-    const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
+    const route = getRoute(ApiUserRoute.USER, { ":userId": payload.userId });
     const response = await this.client
       .PATCH<UpdateUserResponse, UpdateUserData>()
       .setRoute(route)
-      .setData(data)
+      .setData(payload.data)
       .setSignal(this.ac.signal)
       .send();
 
@@ -152,18 +143,13 @@ export class UserClient extends BaseApiClient {
   }
 
   /**
-   * Requires admin privileges.\
-   * Deletes a user in the authenticated users organization.
-   * @param id {string} - UserID
+   * Soft-deletes a user in the authenticated users organization.
+   * @info Requires admin privileges.
+   * @param payload.userId - The ID of the user to delete
    * @returns
    */
-  async deleteUser(id: string): Promise<void> {
-    const userId = id.toLowerCase();
-    if (!userId) {
-      throw new Error("User ID is required");
-    }
-
-    const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
+  async deleteUser(payload: { userId: string }): Promise<void> {
+    const route = getRoute(ApiUserRoute.USER, { ":userId": payload.userId });
     const response = await this.client
       .DELETE<never>()
       .setRoute(route)

@@ -11,7 +11,7 @@ export interface UsersPaginated {
   meta: PaginateMeta;
 }
 
-export interface UserCreate extends Omit<User, "id"> {
+export interface CreateUserData extends Omit<User, "id"> {
   password: string;
 }
 
