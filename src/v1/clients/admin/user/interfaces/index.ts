@@ -23,3 +23,16 @@ export interface InviteUserData extends Omit<User, "id"> {
 export interface InviteUserResponse {
   inviteToken: string;
 }
+
+export interface FetchUserResponse {
+  user: User;
+}
+
+export interface UpdateUserData {
+  name?: string;
+  email?: string;
+}
+
+export interface UpdateUserResponse {
+  user: User;
+}

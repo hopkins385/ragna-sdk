@@ -4,14 +4,15 @@ import { getRoute, HttpStatus } from "../../../../utils";
 import { BaseApiClient } from "../../../base/base-api.client";
 import { PaginateParams } from "../../../interfaces";
 import {
+  FetchUserResponse,
   InviteUserData,
   InviteUserResponse,
+  UpdateUserData,
+  UpdateUserResponse,
   User,
   UserCreate,
   UsersPaginated,
 } from "./interfaces";
-
-type UserUpdate = Omit<User, "id">;
 
 const ApiUserRoute = {
   BASE: "/user", // GET, POST
@@ -51,13 +52,16 @@ export class UserClient extends BaseApiClient {
    * @param id - UserID
    * @returns
    */
-  async fetchUserById(id: string): Promise<User> {
-    const userId = id.toLowerCase();
+  async fetchUserById({
+    userId,
+  }: {
+    userId: string;
+  }): Promise<FetchUserResponse> {
     if (!userId) throw new Error("User ID is required");
 
     const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
     const response = await this.client
-      .GET<User>()
+      .GET<FetchUserResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();
@@ -119,20 +123,24 @@ export class UserClient extends BaseApiClient {
   /**
    * Requires admin privileges.\
    * Updates a user in the authenticated users organization.
-   * @param id {string} - User ID
-   * @param name {string} - User name
-   * @param email {string} - User email
+   * @param userId - User ID
+   * @param data - User data
    * @returns
    */
-  async updateUser(id: string, updateData: UserUpdate): Promise<User> {
-    const userId = id.toLowerCase();
+  async updateUser({
+    userId,
+    data,
+  }: {
+    userId: string;
+    data: UpdateUserData;
+  }): Promise<UpdateUserResponse> {
     if (!userId) throw new Error("User ID is required");
 
     const route = getRoute(ApiUserRoute.USER, { ":userId": userId });
     const response = await this.client
-      .PATCH<User, UserUpdate>()
+      .PATCH<UpdateUserResponse, UpdateUserData>()
       .setRoute(route)
-      .setData(updateData)
+      .setData(data)
       .setSignal(this.ac.signal)
       .send();
 
