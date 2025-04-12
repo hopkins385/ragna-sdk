@@ -9,7 +9,6 @@ export interface AccountData {
   roles: any;
   teams: any;
   organisationId: string;
-  firstTeamId: string;
   onboardedAt: string | null;
   hasOnboarded: boolean;
   hasEmailVerified: boolean;
