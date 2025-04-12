@@ -45,7 +45,6 @@ export interface AssistantResponse {
 }
 
 export interface CreateAssistantPayload {
-  teamId: string;
   llmId: string;
   title: string;
   description: string;
