@@ -2,7 +2,7 @@ import { BadResponseError } from "../../../errors/bad-response.error";
 import RagnaClient from "../../../ragnaClient";
 import { getRoute, HttpStatus } from "../../../utils";
 import { BaseApiClient } from "../../base/base-api.client";
-import { AccountData } from "./interfaces";
+import { AccountData, AccountDataResponse } from "./interfaces";
 
 const ApiAccountRoute = {
   BASE: "/account", // GET
@@ -24,7 +24,7 @@ export class AccountClient extends BaseApiClient {
   public async fetchAccountData() {
     const route = getRoute(ApiAccountRoute.BASE);
     const response = await this.client
-      .GET<AccountData>()
+      .GET<AccountDataResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();

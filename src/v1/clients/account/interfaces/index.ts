@@ -1,15 +1,26 @@
+interface Organisation {
+  id: string;
+  name: string;
+}
+
+interface Team {
+  id: string;
+  name: string;
+}
+
 export interface AccountData {
   id: string;
   name: string;
   firstName: string;
   lastName: string;
-  totalCredits: number;
   email: string;
-  organisation: any;
-  roles: any;
-  teams: any;
-  organisationId: string;
+  image: string;
+  roles: string[];
+  teams: Team[];
+  organisation: Organisation;
+  lastLoginAt: string | null;
   onboardedAt: string | null;
+  emailVerifiedAt: string | null;
   hasOnboarded: boolean;
   hasEmailVerified: boolean;
 }
