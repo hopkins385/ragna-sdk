@@ -1,5 +1,35 @@
 import { PaginateMeta } from "../../../../interfaces";
 
+interface Organisation {
+  id: string;
+  name: string;
+}
+
+interface Team {
+  id: string;
+  name: string;
+}
+
+interface Role {
+  id: string;
+  name: string;
+}
+
+interface DetailedUser {
+  id: string;
+  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  image: string;
+  roles: Role[];
+  teams: Team[];
+  organisation: Organisation;
+  lastLoginAt: Date;
+  onboardedAt: Date;
+  emailVerifiedAt: Date;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -7,7 +37,7 @@ export interface User {
 }
 
 export interface UsersPaginated {
-  users: User[];
+  users: DetailedUser[];
   meta: PaginateMeta;
 }
 
