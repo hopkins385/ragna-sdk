@@ -46,8 +46,7 @@ export interface CreateUserData extends Omit<User, "id"> {
 }
 
 export interface InviteUserData extends Omit<User, "id"> {
-  role?: string;
-  isAdmin?: boolean;
+  roleName: string;
 }
 
 export interface InviteUserResponse {
