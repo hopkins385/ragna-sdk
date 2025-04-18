@@ -30,8 +30,13 @@ export interface AccountDataResponse {
 }
 
 export interface TokenUsage {
+  prompTokens: number;
+  completionTokens: number;
   totalTokens: number;
   createdAt: Date;
+  promptPrice: number;
+  completionPrice: number;
+  totalPrice: number;
   llm: {
     provider: string;
     displayName: string;
