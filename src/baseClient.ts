@@ -56,9 +56,11 @@ export abstract class BaseClient {
       method
     );
   }
+
   public GET<TResponse, TParams = never>(): RequestBuilder<TResponse, TParams> {
     return this.#getRequestBuilder<TResponse, TParams>("GET");
   }
+
   public POST<TResponse, TData = never>(): RequestBuilder<
     TResponse,
     never,
@@ -66,6 +68,7 @@ export abstract class BaseClient {
   > {
     return this.#getRequestBuilder<TResponse, never, TData>("POST");
   }
+
   public PATCH<TResponse, TData = never>(): RequestBuilder<
     TResponse,
     never,
@@ -73,6 +76,7 @@ export abstract class BaseClient {
   > {
     return this.#getRequestBuilder<TResponse, never, TData>("PATCH");
   }
+
   public DELETE<TResponse, TParams = never>(): RequestBuilder<
     TResponse,
     TParams
