@@ -15,6 +15,7 @@ const ApiWorkflowRoute = {
   WORKFLOW_FULL: "/workflow/:workflowId/full",
   WORKFLOW_ROW: "/workflow/:workflowId/row", // DELETE
   EXECUTE: "/workflow/:workflowId/execute",
+  EXECUTE_STEP: "/workflow/:id/step/:stepId/execute",
   EXPORT: "/workflow/:workflowId/export",
 } as const;
 
@@ -199,6 +200,30 @@ export class WorkflowClient extends BaseApiClient {
   public async executeWorkflow(workflowId: string) {
     const route = getRoute(ApiWorkflowRoute.EXECUTE, {
       ":workflowId": workflowId,
+    });
+    const response = await this.client
+      .POST<WorkflowResponse>()
+      .setRoute(route)
+      .setSignal(this.ac.signal)
+      .send();
+
+    if (response.status !== HttpStatus.CREATED) {
+      throw new Error("Failed to execute workflow");
+    }
+
+    return response.data;
+  }
+
+  public async executeWorkflowStep({
+    workflowId,
+    stepId,
+  }: {
+    workflowId: string;
+    stepId: string;
+  }) {
+    const route = getRoute(ApiWorkflowRoute.EXECUTE_STEP, {
+      ":id": workflowId,
+      ":stepId": stepId,
     });
     const response = await this.client
       .POST<WorkflowResponse>()
