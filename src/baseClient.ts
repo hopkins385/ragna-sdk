@@ -16,13 +16,7 @@ export abstract class BaseClient {
     this.accessToken = null;
     this.refreshToken = null;
 
-    this.axiosInstance = this.createAxiosInstance(this.baseURL, this.timeout);
-  }
-
-  protected _ensureAuthenticated(): void {
-    if (!this.accessToken) {
-      throw new Error("Not authenticated. Please login first.");
-    }
+    this.axiosInstance = this._createAxiosInstance(this.baseURL, this.timeout);
   }
 
   public setTokens(payload: {
@@ -33,7 +27,13 @@ export abstract class BaseClient {
     this.refreshToken = payload.refreshToken;
   }
 
-  protected createAxiosInstance(
+  protected _ensureAuthenticated(): void {
+    if (!this.accessToken) {
+      throw new Error("Not authenticated. Please login first.");
+    }
+  }
+
+  protected _createAxiosInstance(
     baseURL: string,
     timeout: number
   ): AxiosInstance {
@@ -48,7 +48,7 @@ export abstract class BaseClient {
     return instance;
   }
 
-  private _getRequestBuilder<TResponse, TParams = never, TData = never>(
+  #getRequestBuilder<TResponse, TParams = never, TData = never>(
     method: "GET" | "POST" | "PATCH" | "DELETE"
   ): RequestBuilder<TResponse, TParams, TData> {
     return new RequestBuilder<TResponse, TParams, TData>(
@@ -57,26 +57,26 @@ export abstract class BaseClient {
     );
   }
   public GET<TResponse, TParams = never>(): RequestBuilder<TResponse, TParams> {
-    return this._getRequestBuilder<TResponse, TParams>("GET");
+    return this.#getRequestBuilder<TResponse, TParams>("GET");
   }
   public POST<TResponse, TData = never>(): RequestBuilder<
     TResponse,
     never,
     TData
   > {
-    return this._getRequestBuilder<TResponse, never, TData>("POST");
+    return this.#getRequestBuilder<TResponse, never, TData>("POST");
   }
   public PATCH<TResponse, TData = never>(): RequestBuilder<
     TResponse,
     never,
     TData
   > {
-    return this._getRequestBuilder<TResponse, never, TData>("PATCH");
+    return this.#getRequestBuilder<TResponse, never, TData>("PATCH");
   }
   public DELETE<TResponse, TParams = never>(): RequestBuilder<
     TResponse,
     TParams
   > {
-    return this._getRequestBuilder<TResponse, TParams>("DELETE");
+    return this.#getRequestBuilder<TResponse, TParams>("DELETE");
   }
 }
