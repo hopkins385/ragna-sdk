@@ -17,6 +17,7 @@ export interface AccountData {
   image: string;
   roles: string[];
   teams: Team[];
+  activeTeamId: string;
   organisation: Organisation;
   lastLoginAt: string | null;
   onboardedAt: string | null;

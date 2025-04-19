@@ -1,16 +1,12 @@
 import { PaginateMeta } from "../../../../interfaces";
+import { Team } from "../../team";
 
-interface Organisation {
+export interface Organisation {
   id: string;
   name: string;
 }
 
-interface Team {
-  id: string;
-  name: string;
-}
-
-interface Role {
+export interface Role {
   id: string;
   name: string;
 }
@@ -34,6 +30,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  roles: Role[];
 }
 
 export interface UsersPaginated {

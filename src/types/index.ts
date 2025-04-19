@@ -11,7 +11,9 @@ export * from "../v1/clients/google-drive/interfaces";
 export * from "../v1/clients/llm/interfaces";
 export * from "../v1/interfaces";
 // export * from "../v1/clients/media/interfaces";
+export * from "../v1/clients/admin/team/interfaces";
 export * from "../v1/clients/admin/user/interfaces";
+//
 export * from "../v1/clients/onboarding/interfaces";
 export * from "../v1/clients/prompt-wizard/interfaces";
 export * from "../v1/clients/record/interfaces";
