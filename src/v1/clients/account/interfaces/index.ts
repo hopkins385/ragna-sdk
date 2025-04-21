@@ -1,9 +1,11 @@
-interface Organisation {
+import { Team } from "../../admin/team";
+
+export interface Organisation {
   id: string;
   name: string;
 }
 
-interface Team {
+export interface Role {
   id: string;
   name: string;
 }
@@ -15,7 +17,7 @@ export interface AccountData {
   lastName: string;
   email: string;
   image: string;
-  roles: string[];
+  roles: Role[];
   teams: Team[];
   activeTeamId: string;
   organisation: Organisation;

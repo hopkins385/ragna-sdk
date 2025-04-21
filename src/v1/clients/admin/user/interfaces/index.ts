@@ -1,15 +1,6 @@
 import { PaginateMeta } from "../../../../interfaces";
+import { Organisation, Role } from "../../../account";
 import { Team } from "../../team";
-
-export interface Organisation {
-  id: string;
-  name: string;
-}
-
-export interface Role {
-  id: string;
-  name: string;
-}
 
 interface DetailedUser {
   id: string;
