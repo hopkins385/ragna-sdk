@@ -18,7 +18,7 @@ import {
 export const ApiAuthRoute = {
   LOGIN: "/auth/login", // POST
   LOGOUT: "/auth/logout", // POST
-  // REGISTER: "/auth/register", // POST
+  REGISTER: "/auth/register", // POST
   REFRESH: "/auth/refresh", // POST
   SESSION: "/auth/session", // GET
   RESET_PASSWORD: "/auth/reset-password", // POST
@@ -89,8 +89,7 @@ export class AuthClient extends BaseApiClient {
    * @deprecated Use admin.createUser or admin.inviteUser instead
    */
   async registerUser(payload: RegistrationCredentials) {
-    throw new Error("Method deprecated.");
-    /*this.abortRequest();
+    this.abortRequest();
     const route = getRoute(ApiAuthRoute.REGISTER);
     const response = await this.client
       .POST<AuthUserResponse, RegistrationCredentials>()
@@ -103,7 +102,7 @@ export class AuthClient extends BaseApiClient {
       throw new BadResponseError();
     }
 
-    return response.data;*/
+    return response.data;
   }
 
   /**
