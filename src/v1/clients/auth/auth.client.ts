@@ -86,7 +86,6 @@ export class AuthClient extends BaseApiClient {
    * @param termsAndConditions Terms and conditions acceptance
    * @param invitationCode Invitation code
    * @returns
-   * @deprecated Use admin.createUser or admin.inviteUser instead
    */
   async registerUser(payload: RegistrationCredentials) {
     this.abortRequest();
