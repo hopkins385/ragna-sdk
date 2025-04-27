@@ -18,6 +18,7 @@ import NerClient from "./v1/clients/ner/ner.client";
 import { OnboardingClient } from "./v1/clients/onboarding";
 import { PromptWizardClient } from "./v1/clients/prompt-wizard";
 import { RecordClient } from "./v1/clients/record";
+import { SpeechToTextClient } from "./v1/clients/speech-to-text";
 import { TextToImageClient } from "./v1/clients/text-to-image";
 import { UserFavoriteClient } from "./v1/clients/user-favorite";
 import { WorkflowClient } from "./v1/clients/workflow";
@@ -58,6 +59,7 @@ export class RagnaClient extends BaseClient {
   public readonly userFavorite: UserFavoriteClient;
   public readonly workflow: WorkflowClient;
   public readonly workflowStep: WorkflowStepClient;
+  public readonly speechToText: SpeechToTextClient;
 
   private getAccessTokenCallback?: GetTokenCallBack;
   private getRefreshTokenCallback?: GetTokenCallBack;
@@ -105,6 +107,7 @@ export class RagnaClient extends BaseClient {
     this.userFavorite = new UserFavoriteClient(this);
     this.workflow = new WorkflowClient(this);
     this.workflowStep = new WorkflowStepClient(this);
+    this.speechToText = new SpeechToTextClient(this);
 
     this.getAccessTokenCallback = options?.getAccessTokenCallback;
     this.setTokensCallback = options?.setTokensCallback;

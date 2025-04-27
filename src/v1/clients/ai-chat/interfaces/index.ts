@@ -53,14 +53,6 @@ export interface CreateChatMessagePayload {
   message: ChatMessage;
 }
 
-export interface CreateChatMessageStreamPayload {
-  chatId: InputChatId;
-  type: ChatMessage["type"];
-  content: ChatMessageContent[];
-  visionContent?: ChatMessage["visionContent"];
-  context?: string;
-}
-
 export interface CreateChatStreamPayload {
   chatId: InputChatId;
   chatMessages: ChatMessage[];
