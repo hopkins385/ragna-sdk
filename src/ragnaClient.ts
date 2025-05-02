@@ -124,12 +124,14 @@ export class RagnaClient extends BaseClient {
       return null;
     }
     return this.getAccessTokenCallback();
+    // return this.accessToken ?? null;
   }
   get getRefreshToken(): string | null {
     if (!this.getRefreshTokenCallback) {
       return null;
     }
     return this.getRefreshTokenCallback();
+    // return localStorage.getItem("refreshToken");
   }
 
   private setupRequestInterceptor() {
@@ -181,8 +183,11 @@ export class RagnaClient extends BaseClient {
             // if (!response || !response.accessToken || !response.refreshToken) {
             //   throw new Error("Failed to refresh tokens");
             // }
-            // this.setTokens({ accessToken: response.accessToken, refreshToken: response.refreshToken });
-            // this.setTokensCallback?.(response);
+            // this.setTokens({
+            //   accessToken: response.accessToken,
+            //   refreshToken: response.refreshToken,
+            // });
+            // this.setTokensCallback?.();
             this.processQueue(null, this.getAccessToken);
             return this.axiosInstance.request(originalRequest);
           } catch (err) {
