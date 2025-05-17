@@ -33,6 +33,7 @@ export interface ChatMessage {
   role: ChatMessageRole;
   content: ChatMessageContent[];
   visionContent?: ChatMessageVisionContent[];
+  tokenCount: number;
 }
 
 export interface ChatsPaginatedResponse {
