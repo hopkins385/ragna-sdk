@@ -19,31 +19,30 @@ export interface ImageGenFolder {
   updatedAt: Date;
 }
 
-export interface FluxProPayload {
+interface FluxDefaultPayload {
   folderId: string;
   prompt: string;
   imgCount: number;
+  outputFormat: OutputFormat;
+  aspectRatio?: string;
+  promptUpsampling?: boolean;
+  safetyTolerance?: number;
+  seed?: number;
+}
+
+export interface FluxProPayload extends FluxDefaultPayload {
   width: number;
   height: number;
   guidance: number;
-  promptUpsampling?: boolean;
-  safetyTolerance?: number;
-  outputFormat: OutputFormat;
 }
 
-export interface FluxUltraPayload {
-  // Required fields
-  folderId: string;
-  imgCount: number;
-  prompt: string;
-  // Optional fields
-  seed?: number;
-  aspectRatio?: string;
-  safetyTolerance?: number;
-  outputFormat?: OutputFormat;
+export interface FluxUltraPayload extends FluxDefaultPayload {
   raw?: boolean;
-  imagePrompt?: string;
-  imagePromptStrength?: number;
+}
+
+export interface FluxKontextPayload extends FluxDefaultPayload {
+  referenceImageIsUpload?: boolean;
+  referenceImageId?: string;
 }
 
 export interface TextToImage {
@@ -77,4 +76,8 @@ export interface ImageGenFolderResponse {
 export interface ImageGenPaginatedResponse {
   runs: ImageRun[];
   meta: PaginateMeta;
+}
+
+export interface ImageDetailsResponse {
+  image: TextToImage;
 }

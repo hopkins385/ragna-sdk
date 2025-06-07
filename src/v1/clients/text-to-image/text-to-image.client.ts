@@ -4,8 +4,10 @@ import { getRoute, HttpStatus } from "../../../utils";
 import { BaseApiClient } from "../../base/base-api.client";
 import { PaginateParams } from "../../interfaces";
 import {
+  FluxKontextPayload,
   FluxProPayload,
   FluxUltraPayload,
+  ImageDetailsResponse,
   ImageGenFolderResponse,
   ImageGenPaginatedResponse,
   ImageGenResponse,
@@ -14,11 +16,14 @@ import {
 const ApiImageGenRoute = {
   FLUX_PRO: "/text-to-image/flux-pro", // POST
   FLUX_ULTRA: "/text-to-image/flux-ultra", // POST
+  FLUX_KONTEXT_PRO: "/text-to-image/flux-kontext-pro", // POST
+  FLUX_KONTEXT_MAX: "/text-to-image/flux-kontext-max", // POST
   FOLDERS: "/text-to-image/folders", // GET
   FOLDER_RUNS: "/text-to-image/:id", // GET
   FOLDER_RUNS_PAGINATED: "/text-to-image/:folderId/paginated", // GET
   TOGGLE_HIDE: "/text-to-image/:runId/toggle-hide", // POST
   DOWNLOAD_IMAGE: "/text-to-image/:imageId/download", // GET
+  IMAGE_DETAILS: "/text-to-image/:imageId/details", // GET
 } as const;
 
 export class TextToImageClient extends BaseApiClient {
@@ -27,16 +32,11 @@ export class TextToImageClient extends BaseApiClient {
   }
 
   public async generateFluxProImages(payload: FluxProPayload) {
-    const bodyData = {
-      ...payload,
-      safety_tolerance: 4,
-    };
-
     const route = getRoute(ApiImageGenRoute.FLUX_PRO);
     const response = await this.client
       .POST<ImageGenResponse, FluxProPayload>()
       .setRoute(route)
-      .setData(bodyData)
+      .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
@@ -48,16 +48,43 @@ export class TextToImageClient extends BaseApiClient {
   }
 
   public async generateFluxUltraImages(payload: FluxUltraPayload) {
-    const bodyData = {
-      ...payload,
-      safety_tolerance: 4,
-    };
-
     const route = getRoute(ApiImageGenRoute.FLUX_ULTRA);
     const response = await this.client
       .POST<ImageGenResponse, FluxUltraPayload>()
       .setRoute(route)
-      .setData(bodyData)
+      .setData(payload)
+      .setSignal(this.ac.signal)
+      .send();
+
+    if (response.status !== HttpStatus.CREATED) {
+      throw new BadResponseError();
+    }
+
+    return response.data;
+  }
+
+  public async generateFluxKontextProImages(payload: FluxKontextPayload) {
+    const route = getRoute(ApiImageGenRoute.FLUX_KONTEXT_PRO);
+    const response = await this.client
+      .POST<ImageGenResponse, FluxKontextPayload>()
+      .setRoute(route)
+      .setData(payload)
+      .setSignal(this.ac.signal)
+      .send();
+
+    if (response.status !== HttpStatus.CREATED) {
+      throw new BadResponseError();
+    }
+
+    return response.data;
+  }
+
+  public async generateFluxKontextMaxImages(payload: FluxKontextPayload) {
+    const route = getRoute(ApiImageGenRoute.FLUX_KONTEXT_MAX);
+    const response = await this.client
+      .POST<ImageGenResponse, FluxKontextPayload>()
+      .setRoute(route)
+      .setData(payload)
       .setSignal(this.ac.signal)
       .send();
 
@@ -129,6 +156,23 @@ export class TextToImageClient extends BaseApiClient {
     const response = await this.client
       .GET<Blob>()
       .setResponseType("blob")
+      .setRoute(route)
+      .setSignal(this.ac.signal)
+      .send();
+
+    if (response.status !== HttpStatus.OK) {
+      throw new BadResponseError();
+    }
+
+    return response.data;
+  }
+
+  public async fetchImageDetails(imageId: string) {
+    const route = getRoute(ApiImageGenRoute.IMAGE_DETAILS, {
+      ":imageId": imageId,
+    });
+    const response = await this.client
+      .GET<ImageDetailsResponse>()
       .setRoute(route)
       .setSignal(this.ac.signal)
       .send();

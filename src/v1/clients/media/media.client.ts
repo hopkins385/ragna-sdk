@@ -4,6 +4,16 @@ import { getRoute, HttpStatus } from "../../../utils";
 import { BaseApiClient } from "../../base/base-api.client";
 import { PaginateParams } from "../../interfaces/paginate.interface";
 
+interface UploadedMedia {
+  id: string;
+  path: string;
+  name: string;
+}
+
+interface UploadMediaResponse {
+  medias: UploadedMedia[];
+}
+
 const ApiMediaRoute = {
   UPLOAD: "/upload",
   BASE: "/media", // POST
@@ -27,7 +37,7 @@ export class MediaClient extends BaseApiClient {
 
     const route = getRoute(ApiMediaRoute.UPLOAD);
     const response = await this.client
-      .POST<any, FormData>()
+      .POST<UploadMediaResponse, FormData>()
       .setHeaders({
         "Content-Type": "multipart/form-data",
       })
