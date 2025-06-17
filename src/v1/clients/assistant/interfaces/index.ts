@@ -47,7 +47,7 @@ export interface AssistantResponse {
 export interface CreateAssistantPayload {
   llmId: string;
   title: string;
-  description: string;
+  description?: string;
   systemPrompt: string;
   isShared: boolean;
   hasKnowledgeBase: boolean;
