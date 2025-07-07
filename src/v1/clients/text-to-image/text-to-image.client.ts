@@ -7,6 +7,7 @@ import {
   FluxKontextPayload,
   FluxProPayload,
   FluxUltraPayload,
+  GoogleImagegenPayload,
   ImageDetailsResponse,
   ImageGenFolderResponse,
   ImageGenPaginatedResponse,
@@ -18,6 +19,7 @@ const ApiImageGenRoute = {
   FLUX_ULTRA: "/text-to-image/flux-ultra", // POST
   FLUX_KONTEXT_PRO: "/text-to-image/flux-kontext-pro", // POST
   FLUX_KONTEXT_MAX: "/text-to-image/flux-kontext-max", // POST
+  GOOGLE_IMAGES: "/text-to-image/google-imagegen", // POST
   FOLDERS: "/text-to-image/folders", // GET
   FOLDER_RUNS: "/text-to-image/:id", // GET
   FOLDER_RUNS_PAGINATED: "/text-to-image/:folderId/paginated", // GET
@@ -83,6 +85,22 @@ export class TextToImageClient extends BaseApiClient {
     const route = getRoute(ApiImageGenRoute.FLUX_KONTEXT_MAX);
     const response = await this.client
       .POST<ImageGenResponse, FluxKontextPayload>()
+      .setRoute(route)
+      .setData(payload)
+      .setSignal(this.ac.signal)
+      .send();
+
+    if (response.status !== HttpStatus.CREATED) {
+      throw new BadResponseError();
+    }
+
+    return response.data;
+  }
+
+  public async generateGoogleImages(payload: GoogleImagegenPayload) {
+    const route = getRoute(ApiImageGenRoute.GOOGLE_IMAGES);
+    const response = await this.client
+      .POST<ImageGenResponse, GoogleImagegenPayload>()
       .setRoute(route)
       .setData(payload)
       .setSignal(this.ac.signal)

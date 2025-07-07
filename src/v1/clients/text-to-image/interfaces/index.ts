@@ -45,6 +45,14 @@ export interface FluxKontextPayload extends FluxDefaultPayload {
   referenceImageId?: string;
 }
 
+export interface GoogleImagegenPayload {
+  folderId: string;
+  prompt: string;
+  imgCount: number;
+  outputFormat: OutputFormat;
+  aspectRatio?: string;
+}
+
 export interface TextToImage {
   path: string;
   status: string;
