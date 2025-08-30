@@ -1,4 +1,4 @@
-# RAGNA Gen AI SDK for TypeScript and JavaScript
+# RAGNA Studio SDK for TypeScript
 
 ## Overview
 
