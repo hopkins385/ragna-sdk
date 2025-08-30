@@ -15,7 +15,7 @@ npm install @hopkins385/ragna-sdk
 or
 
 ```bash
-yarn add @hopkins385/ragna-sdk'
+yarn add @hopkins385/ragna-sdk
 ```
 
 ## Usage
