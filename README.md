@@ -9,13 +9,13 @@ The RAGNA GenAI SDK provides a set of tools and classes for interacting with the
 To install the RAGNA SDK, you can use npm or yarn:
 
 ```bash
-npm install ragna-sdk
+npm install @hopkins385/ragna-sdk
 ```
 
 or
 
 ```bash
-yarn add ragna-sdk
+yarn add @hopkins385/ragna-sdk'
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ yarn add ragna-sdk
 To use the RAGNA SDK, import the necessary classes from the package:
 
 ```typescript
-import { RagnaClient } from "ragna-sdk";
+import { RagnaClient } from "@hopkins385/ragna-sdk";
 ```
 
 ### Creating an Instance
